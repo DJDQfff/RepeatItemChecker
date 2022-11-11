@@ -3,36 +3,125 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:usercontrol="using:RepeatItemChecker.UserControls"
+      xmlns:local="using:RepeatItemChecker.Views"
       xmlns:storage="using:Windows.Storage"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <Style TargetType="ListViewItem"
+               x:Key="listviewitemstyle">
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Stretch" />
+            <Setter Property="VerticalContentAlignment"
+                    Value="Stretch" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment"
+                    Value="Stretch" />
+            <Setter Property="VerticalAlignment"
+                    Value="Stretch" />
+            <Setter Property="Margin"
+                    Value="4" />
+        </Style>
+    </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Vertical"
-                    Grid.Column="0">
-            <Button Content="添加文件夹" />
-            <ListView ItemsSource="{x:Bind storageFolders}">
+        <RelativePanel>
+            <Button x:Name="PickButton"
+                    Content="添加文件夹"
+                    Click="PickFolders"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.AlignTopWithPanel="True" />
+
+            <StackPanel Orientation="Vertical"
+                        Background="Red"
+                        VerticalAlignment="Stretch"
+                        RelativePanel.Above="PickButton"
+                        RelativePanel.Below="StartButton"
+                        Grid.Column="0">
+                <ListView ItemsSource="{x:Bind storageFolders}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="storage:StorageFolder">
+                            <TextBlock Text="{x:Bind Path}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+
+            <Button x:Name="StartButton"
+                    Content="开始"
+                    Click="Start"
+                    HorizontalAlignment="Stretch"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.AlignBottomWithPanel="True" />
+        </RelativePanel>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Text="{x:Bind pairs.Count,Mode=OneWay}" />
+            <ListView x:Name="SameItemList" 
+                      Grid.Row="1"
+                      ItemsSource="{x:Bind pairs,Mode=OneWay}"
+                      IsItemClickEnabled="False"
+                      ItemContainerStyle="{StaticResource listviewitemstyle}"
+                      IsMultiSelectCheckBoxEnabled="False">
+
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="storage:StorageFolder">
-                        <TextBlock Text="{x:Bind Path}" />
+                    <DataTemplate x:DataType="local:ItemGroup">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{x:Bind Key}" />
+
+                            <ListView x:Name="list2"
+                                      Grid.Row="1"
+                                      Margin="24,0,0,0"
+                                      ItemsSource="{x:Bind StorageFiles}"
+                                      ItemContainerStyle="{StaticResource listviewitemstyle}"
+                                      IsItemClickEnabled="False"
+                                      IsMultiSelectCheckBoxEnabled="False">
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="storage:StorageFile">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="{x:Bind Path}"
+                                                           VerticalAlignment="Center"
+                                                           TextAlignment="DetectFromContent"
+                                                           TextWrapping="Wrap" />
+                                            </Grid>
+                                            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" 
+                                                         Grid.Column="1">
+                                                <Button Content="打开"
+                                                        Click="Button_Click_LaunchFile" />
+
+                                                <Button Content="删除" Click="DeleteFile" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackPanel>
-        <ListView x:Name="SameItemList"
-                  IsEnabled="False"
-                  Grid.Column="1"
-                  ItemsSource="{x:Bind storageFiles,Mode=OneWay}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="storage:StorageFile">
-                    <usercontrol:MyUserControl1 />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        </Grid>
     </Grid>
 </Page>

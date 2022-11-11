@@ -8,8 +8,16 @@
              d:DesignHeight="300"
              d:DesignWidth="400">
 
-    <ScrollViewer>
-        <StackPanel x:Name="stack">
-        </StackPanel>
-    </ScrollViewer>
+    <Grid Background="Green">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <TextBlock Text="{x:Bind Con.Content,Mode=OneWay}" />
+        
+        <!--<ScrollViewer Grid.Row="1">
+            <StackPanel x:Name="stack">
+            </StackPanel>
+        </ScrollViewer>-->
+    </Grid>
 </UserControl>
