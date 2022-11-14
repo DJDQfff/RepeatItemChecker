@@ -9,11 +9,11 @@ using Windows.Storage;
 
 namespace RepeatItemChecker.Models
 {
-    public class ItemGroup : IGrouping<ulong, StorageFile>
+    public class RepeatItemGroup : IGrouping<ulong, StorageFile>
     {
         private IGrouping<ulong, StorageFile> files;
 
-        public ItemGroup (IGrouping<ulong, StorageFile> _files)
+        public RepeatItemGroup (IGrouping<ulong, StorageFile> _files)
         {
             files = _files;
             StorageFiles = _files.ToArray();

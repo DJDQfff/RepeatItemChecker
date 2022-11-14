@@ -23,6 +23,10 @@
             <Setter Property="Margin"
                     Value="4" />
         </Style>
+        <Style TargetType="StackPanel">
+            <Setter Property="Margin"
+                    Value="4" />
+        </Style>
     </Page.Resources>
 
     <Grid>
@@ -60,7 +64,7 @@
                           RelativePanel.AlignBottomWithPanel="True"
                           RelativePanel.AlignTopWithPanel="True"
                           RelativePanel.LeftOf="ConFileRemoveButton"
-                          ItemsSource="{x:Bind folderConFiles}"
+                          ItemsSource="{x:Bind StorageFolders}"
                           DisplayMemberPath="ConfigurationName"/>
                 <Button x:Name="ConFileRemoveButton"
                         Click="RemoveConFile"
@@ -86,7 +90,7 @@
 
             <Rectangle HorizontalAlignment="Stretch" />
 
-            <ListView ItemsSource="{x:Bind storageFolders}">
+            <ListView ItemsSource="{x:Bind StorageFolders}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="storage:StorageFolder">
                         <TextBlock>
@@ -96,20 +100,21 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackPanel>
+        
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock Text="{x:Bind pairs.Count,Mode=OneWay}" />
+            <TextBlock Text="{x:Bind RepeatPairs.Count,Mode=OneWay}" />
             <ListView x:Name="SameItemList"
                       Grid.Row="1"
                       SelectionMode="None"
-                      ItemsSource="{x:Bind pairs,Mode=OneWay}"
+                      ItemsSource="{x:Bind RepeatPairs,Mode=OneWay}"
                       ItemContainerStyle="{StaticResource listviewitemstyle}">
 
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="models:ItemGroup">
+                    <DataTemplate x:DataType="models:RepeatItemGroup">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />

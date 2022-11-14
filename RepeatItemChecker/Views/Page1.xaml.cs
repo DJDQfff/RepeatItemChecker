@@ -22,32 +22,32 @@ namespace RepeatItemChecker.Views
     /// </summary>
     public sealed partial class Page1 : Page
     {
-        internal ObservableCollection<StorageFile> storageFiles = new ObservableCollection<StorageFile>();
-        public ObservableCollection<StorageFolder> storageFolders = new ObservableCollection<StorageFolder>();
+        internal ObservableCollection<StorageFile> StorageFiles = new ObservableCollection<StorageFile>();
+        public ObservableCollection<StorageFolder> StorageFolders = new ObservableCollection<StorageFolder>();
 
-        internal ObservableCollection<FolderConFile> folderConFiles = new ObservableCollection<FolderConFile>();
+        internal ObservableCollection<FoldersConfiguration> ConfigurationFiles = new ObservableCollection<FoldersConfiguration>();
 
-        public ObservableCollection<ItemGroup> pairs = new ObservableCollection<ItemGroup>();
+        public ObservableCollection<RepeatItemGroup> RepeatPairs = new ObservableCollection<RepeatItemGroup>();
 
-        private StorageFolder ConfigurationFolder;
+        private StorageFolder configurationFileFolder;
 
-        private FolderConFile CurrentConfiguration;
+        private FoldersConfiguration currentConfiguration;
         public Page1 ()
         {
             this.InitializeComponent();
-             ConfigurationFolder = Windows.Storage.ApplicationData.Current.LocalFolder .CreateFolderAsync("Configuration", CreationCollisionOption.OpenIfExists).AsTask().Result;
+             configurationFileFolder = Windows.Storage.ApplicationData.Current.LocalFolder .CreateFolderAsync("Configuration", CreationCollisionOption.OpenIfExists).AsTask().Result;
 
         }
 
         protected override async void OnNavigatedTo (NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-                var files = await ConfigurationFolder.GetFilesAsync();
+                var files = await configurationFileFolder.GetFilesAsync();
                 foreach (var file in files)
                 {
-                    var confile = FolderConFile.Read(file.Path);
+                    var confile = FoldersConfiguration.Read(file.Path);
 
-                    folderConFiles.Add(confile);
+                    ConfigurationFiles.Add(confile);
                 }
         }
 
@@ -57,12 +57,12 @@ namespace RepeatItemChecker.Views
             if (folder != null)
             {
 
-                if (!storageFolders.Contains(folder))
+                if (!StorageFolders.Contains(folder))
             {            
                 var token = FutureAccessList.Add(folder);
-                CurrentConfiguration.AddToken(token);
+                currentConfiguration.AddToken(token);
 
-                storageFolders.Add(folder);
+                StorageFolders.Add(folder);
             }
 
             }
@@ -72,30 +72,30 @@ namespace RepeatItemChecker.Views
 
         private async void Start (object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            FolderConFile.SaveFile(ConfigurationFolder.Path, CurrentConfiguration);
+            FoldersConfiguration.SaveFile(configurationFileFolder.Path, currentConfiguration);
 
-            storageFiles.Clear();
-            pairs.Clear();
+            StorageFiles.Clear();
+            RepeatPairs.Clear();
 
-            foreach (var folder in storageFolders)
+            foreach (var folder in StorageFolders)
             {
                 var files = await folder.GetAllStorageFiles();
 
                 foreach (var file in files)
                 {
-                    storageFiles.Add(file);
+                    StorageFiles.Add(file);
                 }
             }
 
 
 
-            var c = storageFiles.GroupBy(n => n.GetBasicPropertiesAsync().AsTask().Result.Size);
+            var c = StorageFiles.GroupBy(n => n.GetBasicPropertiesAsync().AsTask().Result.Size);
             foreach (var cc in c)
             {
                 if (cc.Count() > 1)
                 {
-                    var item = new ItemGroup(cc);
-                    pairs.Add(item);
+                    var item = new RepeatItemGroup(cc);
+                    RepeatPairs.Add(item);
                 }
             }
         }
@@ -119,14 +119,14 @@ namespace RepeatItemChecker.Views
         {
 
 #if DEBUG
-            await Windows.System.Launcher.LaunchFolderAsync(ConfigurationFolder);
+            await Windows.System.Launcher.LaunchFolderAsync(configurationFileFolder);
 #endif
 
             var text = NewConFileNameInput.Text;
             Guid guid = Guid.NewGuid();
-            var file = await ConfigurationFolder.CreateFileAsync(guid.ToString(), CreationCollisionOption.GenerateUniqueName);
-            FolderConFile folderConFile = new FolderConFile( guid.ToString(),text);
-            folderConFiles.Add(folderConFile);
+            var file = await configurationFileFolder.CreateFileAsync(guid.ToString(), CreationCollisionOption.GenerateUniqueName);
+            FoldersConfiguration folderConFile = new FoldersConfiguration( guid.ToString(),text);
+            ConfigurationFiles.Add(folderConFile);
 
             var a = ConfigurationComboBox.Items.IndexOf(folderConFile);
             ConfigurationComboBox.SelectedIndex = a;
@@ -134,13 +134,13 @@ namespace RepeatItemChecker.Views
 
         private async void RemoveConFile (object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            if (folderConFiles.Count != 0)
+            if (ConfigurationFiles.Count != 0)
             {
 
-            var item = ConfigurationComboBox.SelectedItem as FolderConFile;
-            var file = await ConfigurationFolder.GetFileAsync(item.Guid);
+            var item = ConfigurationComboBox.SelectedItem as FoldersConfiguration;
+            var file = await configurationFileFolder.GetFileAsync(item.Guid);
             await file.DeleteAsync( StorageDeleteOption.PermanentDelete);
-            folderConFiles.Remove(item);
+            ConfigurationFiles.Remove(item);
             }
         }
 
@@ -148,16 +148,16 @@ namespace RepeatItemChecker.Views
         {
             if(ConfigurationComboBox.SelectedItem != null)
             {
-                pairs.Clear();
-                storageFolders.Clear();
-                storageFiles.Clear();
+                RepeatPairs.Clear();
+                StorageFolders.Clear();
+                StorageFiles.Clear();
 
-                CurrentConfiguration = ConfigurationComboBox.SelectedItem as FolderConFile;
+                currentConfiguration = ConfigurationComboBox.SelectedItem as FoldersConfiguration;
 
-                foreach(var token in CurrentConfiguration.FolderTokens)
+                foreach(var token in currentConfiguration.FolderTokens)
                 {
                     var folder=await FutureAccessList.GetFolderAsync(token);
-                    storageFolders.Add(folder);
+                    StorageFolders.Add(folder);
 
                 }         
 

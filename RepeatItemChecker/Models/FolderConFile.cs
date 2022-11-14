@@ -11,16 +11,16 @@ using static System.Net.WebRequestMethods;
 
 namespace RepeatItemChecker.Models
 {
-    internal class FolderConFile
+    internal class FoldersConfiguration
     {
         public string ConfigurationName { set; get; }
         public List<string> FolderTokens { set; get; }=new List<string>();
 
         public string Guid { set; get; }
-        public FolderConFile ()
+        public FoldersConfiguration ()
         { }
 
-        public FolderConFile (string guid, string name) 
+        public FoldersConfiguration (string guid, string name) 
         {
             ConfigurationName = name;Guid = guid;
                 }
@@ -36,12 +36,12 @@ namespace RepeatItemChecker.Models
             FolderTokens.Remove(token);
         }
 
-        internal static FolderConFile Read (string path)
+        internal static FoldersConfiguration Read (string path)
         {
             var lines = System.IO.File.ReadAllLines(path);
             var tokens = lines.Skip(1).ToList();
 
-            var con = new FolderConFile()
+            var con = new FoldersConfiguration()
             {
                 ConfigurationName = lines[0],
               
@@ -55,7 +55,7 @@ namespace RepeatItemChecker.Models
         }
 
 
-        internal static void SaveFile(string folder, FolderConFile folderConFile)
+        internal static void SaveFile(string folder, FoldersConfiguration folderConFile)
         {
             string path = Path.Combine(folder, folderConFile.Guid);
 
