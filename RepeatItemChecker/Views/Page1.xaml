@@ -64,7 +64,7 @@
                           RelativePanel.AlignBottomWithPanel="True"
                           RelativePanel.AlignTopWithPanel="True"
                           RelativePanel.LeftOf="ConFileRemoveButton"
-                          ItemsSource="{x:Bind StorageFolders}"
+                          ItemsSource="{x:Bind ConfigurationFiles}"
                           DisplayMemberPath="ConfigurationName"/>
                 <Button x:Name="ConFileRemoveButton"
                         Click="RemoveConFile"

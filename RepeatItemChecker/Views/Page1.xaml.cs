@@ -57,7 +57,7 @@ namespace RepeatItemChecker.Views
             if (folder != null)
             {
 
-                if (!StorageFolders.Contains(folder))
+                if (!StorageFolders.Contain(folder))
             {            
                 var token = FutureAccessList.Add(folder);
                 currentConfiguration.AddToken(token);
