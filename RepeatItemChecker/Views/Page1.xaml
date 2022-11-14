@@ -3,7 +3,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:local="using:RepeatItemChecker.Views"
+      xmlns:models="using:RepeatItemChecker.Models"
       xmlns:storage="using:Windows.Storage"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -24,57 +24,92 @@
                     Value="4" />
         </Style>
     </Page.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <RelativePanel>
+        <StackPanel Width="200"
+                    Orientation="Vertical">
+
+            <RelativePanel  HorizontalAlignment="Stretch">
+                <TextBox x:Name="NewConFileNameInput"
+                         HorizontalAlignment="Stretch" PlaceholderText="添加新配置" 
+                         Margin="4"
+                         RelativePanel.AlignLeftWithPanel="True"
+                         RelativePanel.AlignBottomWithPanel="True"
+                         RelativePanel.AlignTopWithPanel="True"
+                         RelativePanel.LeftOf="NewConfileAddButton" />
+                <Button x:Name="NewConfileAddButton"
+                        RelativePanel.AlignRightWithPanel="True"
+                        RelativePanel.AlignBottomWithPanel="True"
+                        RelativePanel.AlignTopWithPanel="True"
+                        Click="AddConfiguration">
+                    <SymbolIcon Symbol="Add" />
+                </Button>
+            </RelativePanel>
+            
+            <RelativePanel  HorizontalAlignment="Stretch">
+                <ComboBox x:Name="ConfigurationComboBox"
+                          SelectedIndex="-1"
+                          HorizontalAlignment="Stretch"
+                          Margin="4"
+                          SelectionChanged="ConfigurationComboBox_SelectionChanged"
+                          RelativePanel.AlignLeftWithPanel="True"
+                          RelativePanel.AlignBottomWithPanel="True"
+                          RelativePanel.AlignTopWithPanel="True"
+                          RelativePanel.LeftOf="ConFileRemoveButton"
+                          ItemsSource="{x:Bind folderConFiles}"
+                          DisplayMemberPath="ConfigurationName"/>
+                <Button x:Name="ConFileRemoveButton"
+                        Click="RemoveConFile"
+                        RelativePanel.AlignRightWithPanel="True"
+                        RelativePanel.AlignBottomWithPanel="True"
+                        RelativePanel.AlignTopWithPanel="True">
+                    <Button.Content>
+                        <SymbolIcon Symbol="Remove" />
+                    </Button.Content>
+                </Button>
+            </RelativePanel>
+
+
             <Button x:Name="PickButton"
-                    Content="添加文件夹"
-                    Click="PickFolders"
-                    RelativePanel.AlignLeftWithPanel="True"
-                    RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.AlignTopWithPanel="True" />
-
-            <StackPanel Orientation="Vertical"
-                        Background="Red"
-                        VerticalAlignment="Stretch"
-                        RelativePanel.Above="PickButton"
-                        RelativePanel.Below="StartButton"
-                        Grid.Column="0">
-                <ListView ItemsSource="{x:Bind storageFolders}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="storage:StorageFolder">
-                            <TextBlock Text="{x:Bind Path}" />
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
-
+                    Content="添加文件夹" 
+                    Click="PickFolder" />
+            <Button Content="清空"
+                    Click="RemoveFolder" />
             <Button x:Name="StartButton"
                     Content="开始"
                     Click="Start"
-                    HorizontalAlignment="Stretch"
-                    RelativePanel.AlignLeftWithPanel="True"
-                    RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.AlignBottomWithPanel="True" />
-        </RelativePanel>
+                    HorizontalAlignment="Stretch" />
+
+            <Rectangle HorizontalAlignment="Stretch" />
+
+            <ListView ItemsSource="{x:Bind storageFolders}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="storage:StorageFolder">
+                        <TextBlock>
+                            <Run Text="{x:Bind Path }" />
+                        </TextBlock>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock Text="{x:Bind pairs.Count,Mode=OneWay}" />
-            <ListView x:Name="SameItemList" 
+            <ListView x:Name="SameItemList"
                       Grid.Row="1"
+                      SelectionMode="None"
                       ItemsSource="{x:Bind pairs,Mode=OneWay}"
-                      IsItemClickEnabled="False"
-                      ItemContainerStyle="{StaticResource listviewitemstyle}"
-                      IsMultiSelectCheckBoxEnabled="False">
+                      ItemContainerStyle="{StaticResource listviewitemstyle}">
 
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="local:ItemGroup">
+                    <DataTemplate x:DataType="models:ItemGroup">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -87,8 +122,7 @@
                                       Margin="24,0,0,0"
                                       ItemsSource="{x:Bind StorageFiles}"
                                       ItemContainerStyle="{StaticResource listviewitemstyle}"
-                                      IsItemClickEnabled="False"
-                                      IsMultiSelectCheckBoxEnabled="False">
+                                      SelectionMode="None">
 
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="storage:StorageFile">
@@ -107,12 +141,14 @@
                                                            TextAlignment="DetectFromContent"
                                                            TextWrapping="Wrap" />
                                             </Grid>
-                                            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" 
+                                            <StackPanel  Orientation="Horizontal"
+                                                         HorizontalAlignment="Center"
                                                          Grid.Column="1">
                                                 <Button Content="打开"
                                                         Click="Button_Click_LaunchFile" />
 
-                                                <Button Content="删除" Click="DeleteFile" />
+                                                <Button Content="删除"
+                                                        Click="DeleteFile" />
                                             </StackPanel>
                                         </Grid>
                                     </DataTemplate>

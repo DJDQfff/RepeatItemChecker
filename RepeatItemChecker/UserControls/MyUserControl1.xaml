@@ -12,9 +12,9 @@
         <Grid.RowDefinitions>
             <RowDefinition />
         </Grid.RowDefinitions>
-        
+
         <TextBlock Text="{x:Bind Con.Content,Mode=OneWay}" />
-        
+
         <!--<ScrollViewer Grid.Row="1">
             <StackPanel x:Name="stack">
             </StackPanel>

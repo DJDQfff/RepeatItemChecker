@@ -1,14 +1,17 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 
 using MyUWPLibrary;
 
+using RepeatItemChecker.Models;
+
 using Windows.Storage;
+using static Windows.Storage.AccessCache.StorageApplicationPermissions;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -19,47 +22,61 @@ namespace RepeatItemChecker.Views
     /// </summary>
     public sealed partial class Page1 : Page
     {
-        public ObservableCollection<StorageFile> storageFiles = new ObservableCollection<StorageFile>();
+        internal ObservableCollection<StorageFile> storageFiles = new ObservableCollection<StorageFile>();
         public ObservableCollection<StorageFolder> storageFolders = new ObservableCollection<StorageFolder>();
+
+        internal ObservableCollection<FolderConFile> folderConFiles = new ObservableCollection<FolderConFile>();
 
         public ObservableCollection<ItemGroup> pairs = new ObservableCollection<ItemGroup>();
 
+        private StorageFolder ConfigurationFolder;
+
+        private FolderConFile CurrentConfiguration;
         public Page1 ()
         {
             this.InitializeComponent();
+             ConfigurationFolder = Windows.Storage.ApplicationData.Current.LocalFolder .CreateFolderAsync("Configuration", CreationCollisionOption.OpenIfExists).AsTask().Result;
+
         }
 
-        /// <summary>
-        /// 加载image，目前无用，loaded事件存在问题，不会用，涉及到一个路由事件的东西
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Image_Loaded (object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        protected override async void OnNavigatedTo (NavigationEventArgs e)
         {
-            var file = this.DataContext as StorageFile;
-            Image image = sender as Image;
-            var thumbnail = file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem).AsTask().Result;
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.SetSource(thumbnail);
-            image.Source = bitmapImage;
-        }
-
-        private async void PickFolders (object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            while (true)
-            {
-                var folder = await StorageItemPicker.PickSingleFolderAsync(Windows.Storage.Pickers.PickerLocationId.Desktop);
-                if (folder != null)
+            base.OnNavigatedTo(e);
+                var files = await ConfigurationFolder.GetFilesAsync();
+                foreach (var file in files)
                 {
-                    storageFolders.Add(folder);
+                    var confile = FolderConFile.Read(file.Path);
+
+                    folderConFiles.Add(confile);
                 }
-                else
-                    break;
+        }
+
+        private async void PickFolder (object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var folder = await StorageItemPicker.PickSingleFolderAsync(Windows.Storage.Pickers.PickerLocationId.Desktop);
+            if (folder != null)
+            {
+
+                if (!storageFolders.Contains(folder))
+            {            
+                var token = FutureAccessList.Add(folder);
+                CurrentConfiguration.AddToken(token);
+
+                storageFolders.Add(folder);
             }
+
+            }
+
+
         }
 
         private async void Start (object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            FolderConFile.SaveFile(ConfigurationFolder.Path, CurrentConfiguration);
+
+            storageFiles.Clear();
+            pairs.Clear();
+
             foreach (var folder in storageFolders)
             {
                 var files = await folder.GetAllStorageFiles();
@@ -69,6 +86,8 @@ namespace RepeatItemChecker.Views
                     storageFiles.Add(file);
                 }
             }
+
+
 
             var c = storageFiles.GroupBy(n => n.GetBasicPropertiesAsync().AsTask().Result.Size);
             foreach (var cc in c)
@@ -95,26 +114,63 @@ namespace RepeatItemChecker.Views
             await file.DeleteAsync(StorageDeleteOption.Default);
             button.IsEnabled = false;
         }
-    }
 
-    public class ItemGroup : IGrouping<ulong, StorageFile>
-    {
-        private IGrouping<ulong, StorageFile> files;
-
-        public ItemGroup (IGrouping<ulong, StorageFile> _files)
+        private async void AddConfiguration (object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            files = _files;
-            StorageFiles = _files.ToArray();
+
+#if DEBUG
+            await Windows.System.Launcher.LaunchFolderAsync(ConfigurationFolder);
+#endif
+
+            var text = NewConFileNameInput.Text;
+            Guid guid = Guid.NewGuid();
+            var file = await ConfigurationFolder.CreateFileAsync(guid.ToString(), CreationCollisionOption.GenerateUniqueName);
+            FolderConFile folderConFile = new FolderConFile( guid.ToString(),text);
+            folderConFiles.Add(folderConFile);
+
+            var a = ConfigurationComboBox.Items.IndexOf(folderConFile);
+            ConfigurationComboBox.SelectedIndex = a;
         }
 
-        public ulong Key => files.Key;
-        public StorageFile[] StorageFiles { set; get; }
-
-        public IEnumerator<StorageFile> GetEnumerator () => files.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator ()
+        private async void RemoveConFile (object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (folderConFiles.Count != 0)
+            {
+
+            var item = ConfigurationComboBox.SelectedItem as FolderConFile;
+            var file = await ConfigurationFolder.GetFileAsync(item.Guid);
+            await file.DeleteAsync( StorageDeleteOption.PermanentDelete);
+            folderConFiles.Remove(item);
+            }
         }
+
+        private async void ConfigurationComboBox_SelectionChanged (object sender, SelectionChangedEventArgs e)
+        {
+            if(ConfigurationComboBox.SelectedItem != null)
+            {
+                pairs.Clear();
+                storageFolders.Clear();
+                storageFiles.Clear();
+
+                CurrentConfiguration = ConfigurationComboBox.SelectedItem as FolderConFile;
+
+                foreach(var token in CurrentConfiguration.FolderTokens)
+                {
+                    var folder=await FutureAccessList.GetFolderAsync(token);
+                    storageFolders.Add(folder);
+
+                }         
+
+            }
+        }
+
+        private void RemoveFolder (object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+       
     }
+
+    
 }
