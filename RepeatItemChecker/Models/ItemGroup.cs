@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,20 +14,22 @@ namespace RepeatItemChecker.Models
     {
         private IGrouping<ulong, StorageFile> files;
 
+        public ObservableCollection<StorageFile> StorageFiles;
+
         public RepeatItemGroup (IGrouping<ulong, StorageFile> _files)
         {
             files = _files;
-            StorageFiles = _files.ToArray();
+            StorageFiles = new ObservableCollection<StorageFile>(files.ToArray());
         }
 
         public ulong Key => files.Key;
-        public StorageFile[] StorageFiles { set; get; }
 
         public IEnumerator<StorageFile> GetEnumerator () => files.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator ()
         {
             throw new NotImplementedException();
+
         }
     }
 
