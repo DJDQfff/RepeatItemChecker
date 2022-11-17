@@ -22,6 +22,15 @@ namespace RepeatItemChecker.Models
             StorageFiles = new ObservableCollection<StorageFile>(files.ToArray());
         }
 
+        public int TryRemoveItem(StorageFile storageFile)
+        {
+            if (StorageFiles.Contains(storageFile))
+            {
+                StorageFiles.Remove(storageFile);
+            }
+
+            return StorageFiles.Count;
+        }
         public ulong Key => files.Key;
 
         public IEnumerator<StorageFile> GetEnumerator () => files.GetEnumerator();

@@ -111,7 +111,13 @@ namespace RepeatItemChecker.Views
         {
             var button = sender as Button;
             var file = button.DataContext as StorageFile;
+
+            
+            DeleteStorageFileInRootObservable(file);
+
+
             await file.DeleteAsync(StorageDeleteOption.Default);
+            
             button.IsEnabled = false;
         }
 
@@ -169,6 +175,20 @@ namespace RepeatItemChecker.Views
             // TODO
         }
 
+        private void DeleteStorageFileInRootObservable (StorageFile storageFile)
+        {
+            for(int index = RepeatPairs.Count-1; index >= 0; index--)
+            {
+                var item=RepeatPairs[index];
+
+                var count = item.TryRemoveItem(storageFile);
+
+                if (count == 1)
+                {
+                    RepeatPairs.Remove(item);
+                }
+            }
+        }
        
     }
 
