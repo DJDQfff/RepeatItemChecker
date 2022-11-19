@@ -7,18 +7,19 @@
       xmlns:storage="using:Windows.Storage"
       
       mc:Ignorable="d"
-      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+      Background="White">
     <Page.Resources>
 
     </Page.Resources>
 
-    <Grid>
+    <Grid Background="#FFAEDEFC">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <StackPanel Width="200"
-                    Orientation="Vertical">
+                    Orientation="Vertical"
+                    Background="#FFFFF6F6">
             <RelativePanel  HorizontalAlignment="Stretch">
                 <TextBox x:Name="NewConFileNameInput"
                          HorizontalAlignment="Stretch" PlaceholderText="添加新配置" 

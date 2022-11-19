@@ -178,7 +178,16 @@ namespace RepeatItemChecker.Views
 
         private void RemoveFolder (object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            // TODO
+            var item=ConfigurationComboBox.SelectedItem as FoldersConfiguration;
+            if(item != null)
+            {
+                item.ClearTokens();
+
+                FoldersConfiguration.SaveFile(configurationFileFolder.Path, item);
+
+                StorageFolders.Clear();
+
+            }
         }
 
         private void DeleteStorageFileInRootObservable (StorageFile storageFile)

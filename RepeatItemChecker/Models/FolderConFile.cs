@@ -36,6 +36,10 @@ namespace RepeatItemChecker.Models
             FolderTokens.Remove(token);
         }
 
+        public void ClearTokens ()
+        {
+            FolderTokens.Clear();
+        }
         internal static FoldersConfiguration Read (string path)
         {
             var lines = System.IO.File.ReadAllLines(path);
