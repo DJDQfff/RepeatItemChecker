@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="3e03a70f-8d76-4664-ba11-7df1a85d5750"
-    Publisher="CN=27431"
-    Version="1.0.0.0" />
+    Name="59570DJDQfff.310515F724637"
+    Publisher="CN=457EFD62-D91C-4992-872B-0F5CE97FDC67"
+    Version="2022.11.19.0" />
 
-  <mp:PhoneIdentity PhoneProductId="3e03a70f-8d76-4664-ba11-7df1a85d5750" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="c58a9fb4-2173-4a93-972e-8a6e60163e37" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>RepeatItemChecker</DisplayName>
-    <PublisherDisplayName>27431</PublisherDisplayName>
+    <PublisherDisplayName>DJDQfff</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -32,7 +32,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="RepeatItemChecker.App">
       <uap:VisualElements
-        DisplayName="RepeatItemChecker"
+        DisplayName="重复文件筛查"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="RepeatItemChecker"
@@ -45,6 +45,5 @@
   </Applications>
 
   <Capabilities>
-    <Capability Name="internetClient" />
-  </Capabilities>
+    <Capability Name="internetClient"/></Capabilities>
 </Package>
