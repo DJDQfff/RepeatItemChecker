@@ -8,6 +8,9 @@
                 Value="Stretch" />
         <Setter Property="Margin"
                 Value="4" />
+
+        <Setter Property="Background"
+                Value="GreenYellow" />
     </Style>
 
     <Style TargetType="StackPanel" >

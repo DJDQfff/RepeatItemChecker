@@ -72,6 +72,8 @@ namespace RepeatItemChecker.Views
 
         private async void Start (object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            ProgressRingUI.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
             FoldersConfiguration.SaveFile(configurationFileFolder.Path, currentConfiguration);
 
             StorageFiles.Clear();
@@ -98,6 +100,8 @@ namespace RepeatItemChecker.Views
                     RepeatPairs.Add(item);
                 }
             }
+
+            ProgressRingUI.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
         private async void Button_Click_LaunchFile (object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -123,7 +127,6 @@ namespace RepeatItemChecker.Views
 
         private async void AddConfiguration (object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-
 #if DEBUG
             await Windows.System.Launcher.LaunchFolderAsync(configurationFileFolder);
 #endif
@@ -136,6 +139,9 @@ namespace RepeatItemChecker.Views
 
             var a = ConfigurationComboBox.Items.IndexOf(folderConFile);
             ConfigurationComboBox.SelectedIndex = a;
+
+            NewConFileNameInput.Text = String.Empty;
+
         }
 
         private async void RemoveConFile (object sender, Windows.UI.Xaml.RoutedEventArgs e)
