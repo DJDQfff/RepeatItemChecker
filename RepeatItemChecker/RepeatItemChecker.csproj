@@ -132,7 +132,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\ItemGroup.cs" />
+    <Compile Include="Models\RepeatItemGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Page1.xaml.cs">
       <DependentUpon>Page1.xaml</DependentUpon>
