@@ -2,6 +2,7 @@
 
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -28,8 +29,12 @@ namespace RepeatItemChecker
         /// 将在启动应用程序以打开特定文件等情况下使用。
         /// </summary>
         /// <param name="e">有关启动请求和过程的详细信息。</param>
-        protected override void OnLaunched (LaunchActivatedEventArgs e)
+        protected override async void OnLaunched (LaunchActivatedEventArgs e)
         {
+#if DEBUG
+            await Windows.System.Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+#endif
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // 不要在窗口已包含内容时重复应用程序初始化，
@@ -57,7 +62,7 @@ namespace RepeatItemChecker
                     // 当导航堆栈尚未还原时，导航到第一页，
                     // 并通过将所需信息作为导航参数传入来配置
                     // 参数
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    rootFrame.Navigate(typeof(MainPage) , e.Arguments);
                 }
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
@@ -69,7 +74,7 @@ namespace RepeatItemChecker
         /// </summary>
         ///<param name="sender">导航失败的框架</param>
         ///<param name="e">有关导航失败的详细信息</param>
-        private void OnNavigationFailed (object sender, NavigationFailedEventArgs e)
+        private void OnNavigationFailed (object sender , NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
@@ -81,7 +86,7 @@ namespace RepeatItemChecker
         /// </summary>
         /// <param name="sender">挂起的请求的源。</param>
         /// <param name="e">有关挂起请求的详细信息。</param>
-        private void OnSuspending (object sender, SuspendingEventArgs e)
+        private void OnSuspending (object sender , SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动

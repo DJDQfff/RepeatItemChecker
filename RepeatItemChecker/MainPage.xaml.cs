@@ -1,4 +1,8 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using FolderGroupDB;
+
+using Microsoft.EntityFrameworkCore;
+
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
@@ -18,6 +22,13 @@ namespace RepeatItemChecker
         protected override void OnNavigatedTo (NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            using (Database_1 database = new Database_1())
+            {
+                database.Database.Migrate();
+                database.SaveChanges();
+            }
+
             MainFrame.Navigate(typeof(Views.Page1));
         }
     }

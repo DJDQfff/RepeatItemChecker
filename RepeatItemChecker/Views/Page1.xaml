@@ -5,11 +5,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:models="using:RepeatItemChecker.Models"
       xmlns:storage="using:Windows.Storage"
-      
       mc:Ignorable="d"
       Background="White">
     <Page.Resources>
-
     </Page.Resources>
 
     <Grid Background="#FFAEDEFC">
@@ -22,7 +20,8 @@
                     Background="#FFFFF6F6">
             <RelativePanel  HorizontalAlignment="Stretch">
                 <TextBox x:Name="NewConFileNameInput"
-                         HorizontalAlignment="Stretch" PlaceholderText="添加新配置" 
+                         HorizontalAlignment="Stretch"
+                         PlaceholderText="添加新配置"
                          Margin="4"
                          RelativePanel.AlignLeftWithPanel="True"
                          RelativePanel.AlignBottomWithPanel="True"
@@ -36,7 +35,7 @@
                     <SymbolIcon Symbol="Add" />
                 </Button>
             </RelativePanel>
-            
+
             <RelativePanel  HorizontalAlignment="Stretch">
                 <ComboBox x:Name="ConfigurationComboBox"
                           SelectedIndex="-1"
@@ -47,8 +46,8 @@
                           RelativePanel.AlignBottomWithPanel="True"
                           RelativePanel.AlignTopWithPanel="True"
                           RelativePanel.LeftOf="ConFileRemoveButton"
-                          ItemsSource="{x:Bind ConfigurationFiles}"
-                          DisplayMemberPath="ConfigurationName"/>
+                          ItemsSource="{x:Bind Groups}"
+                          DisplayMemberPath="GroupName" />
                 <Button x:Name="ConFileRemoveButton"
                         Click="RemoveConFile"
                         RelativePanel.AlignRightWithPanel="True"
@@ -60,9 +59,8 @@
                 </Button>
             </RelativePanel>
 
-
             <Button x:Name="PickButton"
-                    Content="添加文件夹" 
+                    Content="添加文件夹"
                     Click="PickFolder" />
             <Button Content="清空"
                     Click="RemoveFolder" />
@@ -83,15 +81,14 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackPanel>
-        
-        
+
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal">
-                           <TextBlock Text="{x:Bind RepeatPairs.Count ,Mode=OneWay}" />
+                <TextBlock Text="{x:Bind RepeatPairs.Count ,Mode=OneWay}" />
                 <TextBlock Text="组相同大小" />
             </StackPanel>
             <ListView x:Name="SameItemList"
@@ -109,7 +106,6 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="大小（字节）" />
                                 <TextBlock Text="{x:Bind Key}" />
-
                             </StackPanel>
 
                             <ListView x:Name="list2"
@@ -153,11 +149,15 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-    
-    
-    <Grid x:Name="ProgressRingUI" Grid.Column="1" Visibility="Collapsed">
-            <ProgressRing IsActive="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxWidth="400" MaxHeight="400" />
-        </Grid>
 
+        <Grid x:Name="ProgressRingUI"
+              Grid.Column="1"
+              Visibility="Collapsed">
+            <ProgressRing IsActive="True"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          MaxWidth="400"
+                          MaxHeight="400" />
+        </Grid>
     </Grid>
 </Page>
