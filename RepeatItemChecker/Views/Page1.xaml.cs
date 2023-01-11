@@ -79,9 +79,9 @@ namespace RepeatItemChecker.Views
 
             foreach (var folder in StorageFolders)
             {
-                var files = await folder.GetAllStorageFiles();
+                var files = await folder.GetAllStorageItems();
 
-                foreach (var file in files)
+                foreach (var file in files.Item2)
                 {
                     StorageFiles.Add(file);
                 }
