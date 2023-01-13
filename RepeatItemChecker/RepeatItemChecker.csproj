@@ -132,7 +132,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\RepeatItemGroup.cs" />
+    <Compile Include="Models\RepeaStorageFileGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Page1.xaml.cs">
       <DependentUpon>Page1.xaml</DependentUpon>
@@ -250,6 +250,10 @@
     <ProjectReference Include="..\FolderGroup\FolderGroupDB.csproj">
       <Project>{4ecca84e-65b3-4ae3-a172-ee2b6f179576}</Project>
       <Name>FolderGroupDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RepeatItemGroup\RepeatItems.csproj">
+      <Project>{8b37e908-7d80-4625-9284-02d8b3f5ca83}</Project>
+      <Name>RepeatItems</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

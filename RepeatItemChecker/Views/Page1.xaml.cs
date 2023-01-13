@@ -28,7 +28,7 @@ namespace RepeatItemChecker.Views
 
         internal ObservableCollection<FoldersGroup> Groups = new ObservableCollection<FoldersGroup>();
 
-        public ObservableCollection<RepeatItemGroup> RepeatPairs = new ObservableCollection<RepeatItemGroup>();
+        public ObservableCollection<RepeaStorageFileGroup> RepeatPairs = new ObservableCollection<RepeaStorageFileGroup>();
 
         private StorageFolder configurationFileFolder;
 
@@ -92,7 +92,7 @@ namespace RepeatItemChecker.Views
             {
                 if (cc.Count() > 1)
                 {
-                    var item = new RepeatItemGroup(cc);
+                    var item = new RepeaStorageFileGroup(cc);
                     RepeatPairs.Add(item);
                 }
             }
