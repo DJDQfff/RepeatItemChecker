@@ -88,7 +88,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{x:Bind _viewModel.Count ,Mode=OneWay}" />
+                <TextBlock x:Name="CountTextBlock" />
                 <TextBlock Text="组相同大小" />
             </StackPanel>
             <ListView x:Name="SameItemList"

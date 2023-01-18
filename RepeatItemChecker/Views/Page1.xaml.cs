@@ -26,9 +26,19 @@ namespace RepeatItemChecker.Views
     public sealed partial class Page1 : Page
     {
         internal RepeatItemGroupViewModel<ulong , StorageFile,RepeaStorageFileGroup> _viewModel;
-        internal ObservableCollection<StorageFile> StorageFiles = new ObservableCollection<StorageFile>();
+        /// <summary>
+        /// 所有要进行比较的文件
+        /// </summary>
+        private ObservableCollection<StorageFile> StorageFiles = new ObservableCollection<StorageFile>();
+
+        /// <summary>
+        /// 所有要进行遍历的文件夹
+        /// </summary>
         public ObservableCollection<StorageFolder> StorageFolders = new ObservableCollection<StorageFolder>();
 
+        /// <summary>
+        /// 程序存储的检查组合
+        /// </summary>
         internal ObservableCollection<FoldersGroup> Groups = new ObservableCollection<FoldersGroup>();
 
         private StorageFolder configurationFileFolder;
@@ -90,6 +100,7 @@ namespace RepeatItemChecker.Views
             _viewModel = new RepeatItemGroupViewModel<ulong,StorageFile,RepeaStorageFileGroup>(StorageFiles , n => n.GetBasicPropertiesAsync().AsTask().Result.Size);
             SameItemList.ItemsSource = _viewModel.RepeatPairs;
             ProgressRingUI.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            CountTextBlock.Text = _viewModel.Count.ToString();
         }
 
         private async void Button_Click_LaunchFile (object sender , Windows.UI.Xaml.RoutedEventArgs e)
@@ -114,6 +125,12 @@ namespace RepeatItemChecker.Views
         private void AddConfiguration (object sender , Windows.UI.Xaml.RoutedEventArgs e)
         {
             var text = NewConFileNameInput.Text;
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
             FoldersGroup folderConFile = new FoldersGroup(text);
 
 
@@ -156,8 +173,13 @@ namespace RepeatItemChecker.Views
                 {
                     if (!string.IsNullOrEmpty(token))
                     {
+                        try
+                        {
                         var folder = await FutureAccessList.GetFolderAsync(token);
                         StorageFolders.Add(folder);
+
+                        }
+                        catch { }
                     }
                 }
             }
