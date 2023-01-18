@@ -8,6 +8,8 @@ using MyUWPLibrary;
 
 using RepeatItemChecker.Models;
 
+using RepeatItems;
+
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -23,12 +25,11 @@ namespace RepeatItemChecker.Views
     /// </summary>
     public sealed partial class Page1 : Page
     {
+        internal RepeatItemGroupViewModel<ulong , StorageFile> _viewModel;
         internal ObservableCollection<StorageFile> StorageFiles = new ObservableCollection<StorageFile>();
         public ObservableCollection<StorageFolder> StorageFolders = new ObservableCollection<StorageFolder>();
 
         internal ObservableCollection<FoldersGroup> Groups = new ObservableCollection<FoldersGroup>();
-
-        public ObservableCollection<RepeaStorageFileGroup> RepeatPairs = new ObservableCollection<RepeaStorageFileGroup>();
 
         private StorageFolder configurationFileFolder;
 
@@ -75,7 +76,6 @@ namespace RepeatItemChecker.Views
             ProgressRingUI.Visibility = Windows.UI.Xaml.Visibility.Visible;
 
             StorageFiles.Clear();
-            RepeatPairs.Clear();
 
             foreach (var folder in StorageFolders)
             {
@@ -87,15 +87,7 @@ namespace RepeatItemChecker.Views
                 }
             }
 
-            var c = StorageFiles.GroupBy(n => n.GetBasicPropertiesAsync().AsTask().Result.Size);
-            foreach (var cc in c)
-            {
-                if (cc.Count() > 1)
-                { 
-                    var item = new RepeaStorageFileGroup(cc);
-                    RepeatPairs.Add(item);
-                }
-            }
+            _viewModel = new RepeatItemGroupViewModel<ulong , StorageFile>(StorageFiles , n => n.GetBasicPropertiesAsync().AsTask().Result.Size);
 
             ProgressRingUI.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
@@ -112,7 +104,7 @@ namespace RepeatItemChecker.Views
             var button = sender as Button;
             var file = button.DataContext as StorageFile;
 
-            DeleteStorageFileInRootObservable(file);
+           _viewModel.DeleteStorageFileInRootObservable(file);
 
             await file.DeleteAsync(StorageDeleteOption.Default);
 
@@ -155,7 +147,6 @@ namespace RepeatItemChecker.Views
         {
             if (ConfigurationComboBox.SelectedItem != null)
             {
-                RepeatPairs.Clear();
                 StorageFolders.Clear();
                 StorageFiles.Clear();
 
@@ -184,20 +175,6 @@ namespace RepeatItemChecker.Views
             }
         }
 
-        private void DeleteStorageFileInRootObservable (StorageFile storageFile)
-        {
-            for (int index = RepeatPairs.Count - 1 ; index >= 0 ; index--)
-            {
-                var item = RepeatPairs[index];
-
-                var count = item.TryRemoveItem(storageFile);
-
-                if (count == 1)
-                {
-                    RepeatPairs.Remove(item);
-                }
-            }
-        }
 
     }
 }

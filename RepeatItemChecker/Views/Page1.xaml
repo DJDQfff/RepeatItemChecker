@@ -88,13 +88,13 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{x:Bind RepeatPairs.Count ,Mode=OneWay}" />
+                <TextBlock Text="{x:Bind _viewModel.Count ,Mode=OneWay}" />
                 <TextBlock Text="组相同大小" />
             </StackPanel>
             <ListView x:Name="SameItemList"
                       Grid.Row="1"
                       SelectionMode="None"
-                      ItemsSource="{x:Bind RepeatPairs,Mode=OneWay}">
+                      ItemsSource="{x:Bind _viewModel.RepeatPairs,Mode=OneWay}">
 
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:RepeaStorageFileGroup">
