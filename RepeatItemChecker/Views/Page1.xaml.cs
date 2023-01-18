@@ -91,7 +91,7 @@ namespace RepeatItemChecker.Views
             foreach (var cc in c)
             {
                 if (cc.Count() > 1)
-                {
+                { 
                     var item = new RepeaStorageFileGroup(cc);
                     RepeatPairs.Add(item);
                 }
