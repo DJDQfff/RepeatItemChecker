@@ -11,14 +11,15 @@ namespace RepeatItems
         private IGrouping<TKey , TElment> files;
         public TKey Key => files.Key;
 
-        public ObservableCollection<TElment> Collections;
-
-        public RepeatItemGroup (IGrouping<TKey , TElment> _files)
+        public ObservableCollection<TElment> Collections= new ObservableCollection<TElment>();
+        public void Initial (IGrouping<TKey , TElment> _files)
         {
             files = _files;
-            Collections = new ObservableCollection<TElment>(files.ToArray());
+            foreach(var file in files)
+            {
+                Collections.Add(file);
+            }
         }
-
         public int TryRemoveItem (TElment storageFile)
         {
             if (Collections.Contains(storageFile))

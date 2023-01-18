@@ -10,8 +10,6 @@ namespace RepeatItemChecker.Models
 {
     public class RepeaStorageFileGroup : RepeatItems.RepeatItemGroup<ulong , StorageFile>
     {
-        public RepeaStorageFileGroup (IGrouping<ulong , StorageFile> _files) : base(_files)
-        {
-        }
+
     }
 }

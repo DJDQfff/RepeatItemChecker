@@ -25,7 +25,7 @@ namespace RepeatItemChecker.Views
     /// </summary>
     public sealed partial class Page1 : Page
     {
-        internal RepeatItemGroupViewModel<ulong , StorageFile> _viewModel;
+        internal RepeatItemGroupViewModel<ulong , StorageFile,RepeaStorageFileGroup> _viewModel;
         internal ObservableCollection<StorageFile> StorageFiles = new ObservableCollection<StorageFile>();
         public ObservableCollection<StorageFolder> StorageFolders = new ObservableCollection<StorageFolder>();
 
@@ -87,8 +87,8 @@ namespace RepeatItemChecker.Views
                 }
             }
 
-            _viewModel = new RepeatItemGroupViewModel<ulong , StorageFile>(StorageFiles , n => n.GetBasicPropertiesAsync().AsTask().Result.Size);
-
+            _viewModel = new RepeatItemGroupViewModel<ulong,StorageFile,RepeaStorageFileGroup>(StorageFiles , n => n.GetBasicPropertiesAsync().AsTask().Result.Size);
+            SameItemList.ItemsSource = _viewModel.RepeatPairs;
             ProgressRingUI.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 

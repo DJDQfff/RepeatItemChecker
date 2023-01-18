@@ -7,26 +7,27 @@ using System.Text;
 using RepeatItems;
 namespace RepeatItems
 {
-    public class RepeatItemGroupViewModel<Tkey,TElement>
+    public class RepeatItemGroupViewModel<TKey,TElment,TRepeatGroup>where TRepeatGroup:RepeatItemGroup<TKey,TElment>,new()
     
     {
-        public ObservableCollection<RepeatItemGroup<Tkey , TElement>> RepeatPairs { set; get; } = new ObservableCollection<RepeatItemGroup<Tkey , TElement>>();
+        public ObservableCollection<TRepeatGroup> RepeatPairs { set; get; } = new ObservableCollection<TRepeatGroup>();
         public int Count => RepeatPairs.Count;
-        public RepeatItemGroupViewModel(IEnumerable<TElement> elements,Func<TElement,Tkey> func)
+        public RepeatItemGroupViewModel(IEnumerable<TElment> elements,Func<TElment,TKey> func)
         {
             var a = elements.GroupBy(func);
             foreach (var cc in a)
             {
                 if (cc.Count() > 1)
                 {
-                    var item = new RepeatItemGroup<Tkey,TElement>(cc);
+                    var item = new TRepeatGroup();
+                    item.Initial(cc);
                     RepeatPairs.Add(item);
                 }
             }
 
         }
 
-        public void DeleteStorageFileInRootObservable (TElement elment)
+        public void DeleteStorageFileInRootObservable (TElment elment)
         {
             for (int index = Count - 1 ; index >= 0 ; index--)
             {

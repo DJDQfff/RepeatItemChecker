@@ -93,8 +93,7 @@
             </StackPanel>
             <ListView x:Name="SameItemList"
                       Grid.Row="1"
-                      SelectionMode="None"
-                      ItemsSource="{x:Bind _viewModel.RepeatPairs,Mode=OneWay}">
+                      SelectionMode="None">
 
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:RepeaStorageFileGroup">
