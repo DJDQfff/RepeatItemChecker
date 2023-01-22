@@ -6,14 +6,28 @@ using System.Linq;
 
 namespace RepeatItems
 {
-    public class RepeatItemGroup<TKey, TElment> : IGrouping<TKey , TElment>
+    /// <summary>
+    /// 重复项组合，多个重复项放在这个类里面
+    /// </summary>
+    /// <typeparam name="TKey">重复分组依据</typeparam>
+    /// <typeparam name="TElement">重复项</typeparam>
+    public class RepeatItemGroup<TKey, TElement> : IGrouping<TKey , TElement>
     {
-        private IGrouping<TKey , TElment> files;
+        private IGrouping<TKey , TElement> files;
+        /// <summary>
+        /// 重复项分组依据，
+        /// </summary>
         public TKey Key => files.Key;
+        /// <summary>
+        /// 重复项可观察集合
+        /// </summary>
+        public ObservableCollection<TElement> Collections { get; } = new ObservableCollection<TElement>();
 
-        public ObservableCollection<TElment> Collections = new ObservableCollection<TElment>();
-
-        public void Initial (IGrouping<TKey , TElment> _files)
+        /// <summary>
+        /// 初始化数据
+        /// </summary>
+        /// <param name="_files"></param>
+        public void Initial (IGrouping<TKey , TElement> _files)
         {
             files = _files;
             foreach (var file in files)
@@ -21,18 +35,26 @@ namespace RepeatItems
                 Collections.Add(file);
             }
         }
-
-        public int TryRemoveItem (TElment storageFile)
+        /// <summary>
+        /// 移除重复项中的某一个
+        /// </summary>
+        /// <param name="element">要移除的重复项</param>
+        /// <returns>剩下的项的个数</returns>
+        public int TryRemoveItem (TElement element)
         {
-            if (Collections.Contains(storageFile))
+            if (Collections.Contains(element))
             {
-                Collections.Remove(storageFile);
+                Collections.Remove(element);
             }
 
             return Collections.Count;
         }
 
-        public IEnumerator<TElment> GetEnumerator () => files.GetEnumerator();
+        /// <summary>
+        /// 迭代器
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<TElement> GetEnumerator () => files.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator ()
         {
