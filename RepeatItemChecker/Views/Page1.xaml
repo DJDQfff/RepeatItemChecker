@@ -74,9 +74,12 @@
             <ListView ItemsSource="{x:Bind StorageFolders}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="storage:StorageFolder">
-                        <TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>
                             <Run Text="{x:Bind Path }" />
                         </TextBlock>
+
+                        </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
@@ -125,7 +128,8 @@
                                                     <RowDefinition />
                                                     <RowDefinition />
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="{x:Bind Path}"
+                                                <Image MaxHeight="400" MaxWidth="800" HorizontalAlignment="Left" Loaded="Image_Loaded" Grid.Row="0" />
+                                                <TextBlock Text="{x:Bind Path}" Grid.Row="1"
                                                            VerticalAlignment="Center"
                                                            TextAlignment="DetectFromContent"
                                                            TextWrapping="Wrap" />

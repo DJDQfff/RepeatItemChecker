@@ -12,6 +12,7 @@ using RepeatItems;
 
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 using static Windows.Storage.AccessCache.StorageApplicationPermissions;
@@ -122,13 +123,15 @@ namespace RepeatItemChecker.Views
             button.IsEnabled = false;
         }
 
-        private void AddConfiguration (object sender , Windows.UI.Xaml.RoutedEventArgs e)
+        private async void AddConfiguration (object sender , Windows.UI.Xaml.RoutedEventArgs e)
         {
             var text = NewConFileNameInput.Text;
 
             if (string.IsNullOrEmpty(text))
             {
-                return;
+                await new ContentDialog() 
+                { Content = "不能为空",CloseButtonText="OK" }
+                .ShowAsync();
             }
 
             FoldersGroup folderConFile = new FoldersGroup(text);
@@ -197,6 +200,14 @@ namespace RepeatItemChecker.Views
             }
         }
 
-
+        private async void Image_Loaded (object sender , Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var image = sender as Image;
+            var storagefile = image.DataContext as StorageFile;
+            var thumbnail = await storagefile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.SetSource(thumbnail);
+            image.Source= bitmapImage;
+        }
     }
 }
