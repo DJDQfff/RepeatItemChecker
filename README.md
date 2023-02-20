@@ -1,6 +1,5 @@
-# RepeatItemChecker
+# 更新日志
 
-# 未完成：
+## 2023.2.20
 
-1.   用户控件改构造函数内的异步方法记得使用AsTask方法，就可以正常调用
-2. UserControl在ListView中无法匹配正确赋值
+* UI添加缩略图
