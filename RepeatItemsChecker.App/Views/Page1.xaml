@@ -7,8 +7,6 @@
       xmlns:storage="using:Windows.Storage"
       mc:Ignorable="d"
       Background="White">
-    <Page.Resources>
-    </Page.Resources>
 
     <Grid Background="#FFAEDEFC">
         <Grid.ColumnDefinitions>
