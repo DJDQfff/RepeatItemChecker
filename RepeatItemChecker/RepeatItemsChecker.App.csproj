@@ -7,8 +7,8 @@
     <ProjectGuid>{9703AD3E-3D88-4357-9DE2-A8EDEF3930AF}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RepeatItemChecker</RootNamespace>
-    <AssemblyName>RepeatItemChecker</AssemblyName>
+    <RootNamespace>RepeatItemsChecker.App</RootNamespace>
+    <AssemblyName>RepeatItemsChecker.App</AssemblyName>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
@@ -251,9 +251,9 @@
       <Project>{4ecca84e-65b3-4ae3-a172-ee2b6f179576}</Project>
       <Name>FolderGroupDB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RepeatItemGroup\RepeatItems.csproj">
+    <ProjectReference Include="..\RepeatItemGroup\RepeatItemsChecker.Core.csproj">
       <Project>{8b37e908-7d80-4625-9284-02d8b3f5ca83}</Project>
-      <Name>RepeatItems</Name>
+      <Name>RepeatItemsChecker.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

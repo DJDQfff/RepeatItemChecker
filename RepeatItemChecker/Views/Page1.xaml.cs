@@ -6,9 +6,10 @@ using FolderGroupDB;
 
 using MyUWPLibrary;
 
-using RepeatItemChecker.Models;
+using RepeatItemsChecker.App.Models;
 
-using RepeatItems;
+using RepeatItemsChecker.Core.Models;
+using RepeatItemsChecker.Core.ViewModels;
 
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
@@ -19,7 +20,7 @@ using static Windows.Storage.AccessCache.StorageApplicationPermissions;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
-namespace RepeatItemChecker.Views
+namespace RepeatItemsChecker.App.Views
 {
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。

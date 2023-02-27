@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace RepeatItems
+using RepeatItemsChecker.Core.Models;
+
+namespace RepeatItemsChecker.Core.ViewModels
 {
     /// <summary>
     /// 重复项组合ViewModel

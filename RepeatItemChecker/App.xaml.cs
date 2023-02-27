@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace RepeatItemChecker
+namespace RepeatItemsChecker.App
 {
     /// <summary>
     /// 提供特定于应用程序的行为，以补充默认的应用程序类。

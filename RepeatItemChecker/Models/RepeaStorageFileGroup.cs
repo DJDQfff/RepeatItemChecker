@@ -6,9 +6,9 @@ using System.Linq;
 
 using Windows.Storage;
 
-namespace RepeatItemChecker.Models
+namespace RepeatItemsChecker.App.Models
 {
-    public class RepeaStorageFileGroup : RepeatItems.RepeatItemGroup<ulong , StorageFile>
+    public class RepeaStorageFileGroup : RepeatItemsChecker.Core.Models.RepeatItemGroup<ulong , StorageFile>
     {
 
     }
