@@ -1,5 +1,4 @@
 ﻿using FolderGroupDB;
-
 using Microsoft.EntityFrameworkCore;
 
 using Windows.UI.Xaml.Controls;

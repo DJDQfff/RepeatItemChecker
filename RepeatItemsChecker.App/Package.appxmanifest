@@ -30,7 +30,7 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="RepeatItemChecker.App">
+      EntryPoint="RepeatItemsChecker.App.App">
       <uap:VisualElements
         DisplayName="重复文件清理"
         Square150x150Logo="Assets\Square150x150Logo.png"

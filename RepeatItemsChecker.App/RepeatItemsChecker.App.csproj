@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RepeatItemsChecker.App</RootNamespace>
     <AssemblyName>RepeatItemsChecker.App</AssemblyName>
-    <DefaultLanguage>zh-CN</DefaultLanguage>
+    <DefaultLanguage>zh-cn</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -247,8 +247,16 @@
       <Project>{0b1515f5-9a8c-404a-bd4a-1f2645e4c67d}</Project>
       <Name>MyUWPLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RepeatItemGroup\RepeatItemsChecker.Core.csproj">
-      <Project>{8b37e908-7d80-4625-9284-02d8b3f5ca83}</Project>
+    <ProjectReference Include="..\FolderGroupDB\FolderGroupDB.csproj">
+      <Project>{6c2defae-a17b-46bb-a9be-34d8c90f5465}</Project>
+      <Name>FolderGroupDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RepeatItemsChecker.BaseViews\RepeatItemsChecker.BaseViews.csproj">
+      <Project>{45c2b716-8913-425f-b8a3-49c627fc03e0}</Project>
+      <Name>RepeatItemsChecker.BaseViews</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RepeatItemsChecker.Core\RepeatItemsChecker.Core.csproj">
+      <Project>{19bac093-b47e-4dab-b37f-5dae86141e24}</Project>
       <Name>RepeatItemsChecker.Core</Name>
     </ProjectReference>
   </ItemGroup>
