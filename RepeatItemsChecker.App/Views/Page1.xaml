@@ -13,75 +13,85 @@
             <ColumnDefinition Width="auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <StackPanel Width="200"
-                    Orientation="Vertical"
-                    Background="#FFFFF6F6">
-            <RelativePanel  HorizontalAlignment="Stretch">
-                <TextBox x:Name="NewConFileNameInput"
-                         HorizontalAlignment="Stretch"
-                         PlaceholderText="添加新配置"
-                         Margin="4"
-                         RelativePanel.AlignLeftWithPanel="True"
-                         RelativePanel.AlignBottomWithPanel="True"
-                         RelativePanel.AlignTopWithPanel="True"
-                         RelativePanel.LeftOf="NewConfileAddButton" />
-                <Button x:Name="NewConfileAddButton"
-                        RelativePanel.AlignRightWithPanel="True"
-                        RelativePanel.AlignBottomWithPanel="True"
-                        RelativePanel.AlignTopWithPanel="True"
-                        Click="AddConfiguration">
-                    <SymbolIcon Symbol="Add" />
-                </Button>
-            </RelativePanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Width="200"
+                        Orientation="Vertical"
+                        Background="#FFFFF6F6">
+                <RelativePanel  HorizontalAlignment="Stretch">
+                    <TextBox x:Name="NewConFileNameInput"
+                             HorizontalAlignment="Stretch"
+                             PlaceholderText="添加新配置"
+                             Margin="4"
+                             RelativePanel.AlignLeftWithPanel="True"
+                             RelativePanel.AlignBottomWithPanel="True"
+                             RelativePanel.AlignTopWithPanel="True"
+                             RelativePanel.LeftOf="NewConfileAddButton" />
+                    <Button x:Name="NewConfileAddButton"
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignBottomWithPanel="True"
+                            RelativePanel.AlignTopWithPanel="True"
+                            Click="AddConfiguration">
+                        <SymbolIcon Symbol="Add" />
+                    </Button>
+                </RelativePanel>
 
-            <RelativePanel  HorizontalAlignment="Stretch">
-                <ComboBox x:Name="ConfigurationComboBox"
-                          SelectedIndex="-1"
-                          HorizontalAlignment="Stretch"
-                          Margin="4"
-                          SelectionChanged="ConfigurationComboBox_SelectionChanged"
-                          RelativePanel.AlignLeftWithPanel="True"
-                          RelativePanel.AlignBottomWithPanel="True"
-                          RelativePanel.AlignTopWithPanel="True"
-                          RelativePanel.LeftOf="ConFileRemoveButton"
-                          ItemsSource="{x:Bind Groups}"
-                          DisplayMemberPath="GroupName" />
-                <Button x:Name="ConFileRemoveButton"
-                        Click="RemoveConFile"
-                        RelativePanel.AlignRightWithPanel="True"
-                        RelativePanel.AlignBottomWithPanel="True"
-                        RelativePanel.AlignTopWithPanel="True">
-                    <Button.Content>
-                        <SymbolIcon Symbol="Remove" />
-                    </Button.Content>
-                </Button>
-            </RelativePanel>
+                <RelativePanel  HorizontalAlignment="Stretch">
+                    <ComboBox x:Name="ConfigurationComboBox"
+                              SelectedIndex="-1"
+                              HorizontalAlignment="Stretch"
+                              Margin="4"
+                              SelectionChanged="ConfigurationComboBox_SelectionChanged"
+                              RelativePanel.AlignLeftWithPanel="True"
+                              RelativePanel.AlignBottomWithPanel="True"
+                              RelativePanel.AlignTopWithPanel="True"
+                              RelativePanel.LeftOf="ConFileRemoveButton"
+                              ItemsSource="{x:Bind Groups}"
+                              DisplayMemberPath="GroupName" />
+                    <Button x:Name="ConFileRemoveButton"
+                            Click="RemoveConFile"
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignBottomWithPanel="True"
+                            RelativePanel.AlignTopWithPanel="True">
+                        <Button.Content>
+                            <SymbolIcon Symbol="Remove" />
+                        </Button.Content>
+                    </Button>
+                </RelativePanel>
 
-            <Button x:Name="PickButton"
-                    Content="添加文件夹"
-                    Click="PickFolder" />
-            <Button Content="清空"
-                    Click="RemoveFolder" />
-            <Button x:Name="StartButton"
-                    Content="开始"
-                    Click="Start"
-                    HorizontalAlignment="Stretch" />
+                <Button x:Name="PickButton"
+                        Content="添加文件夹"
+                        Click="PickFolder" />
+                <Button Content="清空"
+                        Click="RemoveFolder" />
+                <Button x:Name="StartButton"
+                        Content="开始"
+                        Click="Start"
+                        HorizontalAlignment="Stretch" />
 
-            <Rectangle HorizontalAlignment="Stretch" />
+                <Rectangle HorizontalAlignment="Stretch" />
 
-            <ListView ItemsSource="{x:Bind StorageFolders}">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="storage:StorageFolder">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock>
+                <ListView ItemsSource="{x:Bind StorageFolders}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="storage:StorageFolder">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock>
                             <Run Text="{x:Bind Path }" />
-                        </TextBlock>
+                                </TextBlock>
 
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+            <StackPanel  Grid.Row="1" Orientation="Vertical">
+                <CheckBox x:Name="CheckBox_FileSize" Content="文件大小"  />
+                <CheckBox x:Name="CheckBox_Md5" Content="Md5" />
+            </StackPanel>
+        </Grid>
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
