@@ -6,6 +6,8 @@ using System.Linq;
 
 using FolderGroupDB;
 
+using Microsoft.Toolkit.Uwp.Notifications;
+
 using MyStandard20Library;
 
 using MyUWPLibrary;
@@ -127,6 +129,10 @@ namespace RepeatItemsChecker.App.Views
             SameItemList.ItemsSource = _viewModel.RepeatPairs;
             ProgressRingUI.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             CountTextBlock.Text = _viewModel.Count.ToString();
+
+            new ToastContentBuilder()
+                .AddText("完成")
+                .Show();
         }
 
     private async void Button_Click_LaunchFile (object sender , Windows.UI.Xaml.RoutedEventArgs e)
