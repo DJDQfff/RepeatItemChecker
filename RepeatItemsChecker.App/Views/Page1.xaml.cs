@@ -90,8 +90,7 @@ namespace RepeatItemsChecker.App.Views
 
         private async void Start (object sender , Windows.UI.Xaml.RoutedEventArgs e)
         {
-            ProgressRingUI.Visibility = Windows.UI.Xaml.Visibility.Visible;
-
+            LoadingControl.IsLoading = true;
             StorageFiles.Clear();
 
             foreach (var folder in StorageFolders)
@@ -127,9 +126,9 @@ namespace RepeatItemsChecker.App.Views
         }
 
             SameItemList.ItemsSource = _viewModel.RepeatPairs;
-            ProgressRingUI.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             CountTextBlock.Text = _viewModel.Count.ToString();
 
+            LoadingControl.IsLoading = false;
             new ToastContentBuilder()
                 .AddText("完成")
                 .Show();

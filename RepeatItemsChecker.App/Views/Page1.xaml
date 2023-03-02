@@ -5,6 +5,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:models="using:RepeatItemsChecker.App.Models"
       xmlns:storage="using:Windows.Storage"
+      xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:brushes="using:Microsoft.Toolkit.Uwp.UI.Media"
       mc:Ignorable="d"
       Background="White">
     <Page.Resources>
@@ -169,15 +171,25 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
+        <toolkit:Loading x:Name="LoadingControl"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="2">
+            <toolkit:Loading.Background>
+                <brushes:AcrylicBrush BackgroundSource="Backdrop"
+                                      TintColor="Black"
+                                      TintOpacity="0.41"
+                                      BlurAmount="10.6" />
+            </toolkit:Loading.Background>    
+            <StackPanel Orientation="Horizontal"
+                    Padding="12">
+                <ProgressRing IsActive="True"
+                              Foreground="Blue" />
+            <TextBlock Text="加载中 :)"
+                       Foreground="Black"
+                       VerticalAlignment="Center" />
+        </StackPanel>
 
-        <Grid x:Name="ProgressRingUI"
-              Grid.Column="1"
-              Visibility="Collapsed">
-            <ProgressRing IsActive="True"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch"
-                          MaxWidth="400"
-                          MaxHeight="400" />
-        </Grid>
+        </toolkit:Loading>
+
     </Grid>
 </Page>
