@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepeatItemsChecker.App", "R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepeatItemsChecker.Core", "RepeatItemsChecker.Core\RepeatItemsChecker.Core.csproj", "{19BAC093-B47E-4DAB-B37F-5DAE86141E24}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyStandard20Library", "..\我的API库\MyStandard20Library\MyStandard20Library.csproj", "{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -164,6 +166,26 @@ Global
 		{19BAC093-B47E-4DAB-B37F-5DAE86141E24}.Release|x64.Build.0 = Release|Any CPU
 		{19BAC093-B47E-4DAB-B37F-5DAE86141E24}.Release|x86.ActiveCfg = Release|Any CPU
 		{19BAC093-B47E-4DAB-B37F-5DAE86141E24}.Release|x86.Build.0 = Release|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Debug|ARM.Build.0 = Debug|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Debug|x64.Build.0 = Debug|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Debug|x86.Build.0 = Debug|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Release|ARM.ActiveCfg = Release|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Release|ARM.Build.0 = Release|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Release|ARM64.Build.0 = Release|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Release|x64.ActiveCfg = Release|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Release|x64.Build.0 = Release|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Release|x86.ActiveCfg = Release|Any CPU
+		{BFB4F6D8-B208-4B31-8ACB-50E6AFCDB0B0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

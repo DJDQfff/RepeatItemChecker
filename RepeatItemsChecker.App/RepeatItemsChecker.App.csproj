@@ -242,6 +242,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\我的API库\MyStandard20Library\MyStandard20Library.csproj">
+      <Project>{bfb4f6d8-b208-4b31-8acb-50e6afcdb0b0}</Project>
+      <Name>MyStandard20Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\我的API库\MyUWPLibrary\MyUWPLibrary.csproj">
       <Project>{0b1515f5-9a8c-404a-bd4a-1f2645e4c67d}</Project>
       <Name>MyUWPLibrary</Name>

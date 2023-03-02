@@ -7,7 +7,9 @@
       xmlns:storage="using:Windows.Storage"
       mc:Ignorable="d"
       Background="White">
+    <Page.Resources>
 
+    </Page.Resources>
     <Grid Background="#FFAEDEFC">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
@@ -88,8 +90,8 @@
                 </ListView>
             </StackPanel>
             <StackPanel  Grid.Row="1" Orientation="Vertical">
-                <CheckBox x:Name="CheckBox_FileSize" Content="文件大小"  />
-                <CheckBox x:Name="CheckBox_Md5" Content="Md5" />
+                <CheckBox x:Name="CheckBox_FileSize" Content="文件大小（Byte）" ToolTipService.ToolTip="比较文件大小" IsEnabled="False" IsChecked="True" />
+                <CheckBox x:Name="CheckBox_Md5" Content="Md5" ToolTipService.ToolTip="对相同大小的文件进行md5值比较" />
             </StackPanel>
         </Grid>
 
@@ -103,9 +105,9 @@
                 <TextBlock Text="组相同大小" />
             </StackPanel>
             <ListView x:Name="SameItemList"
+                      
                       Grid.Row="1"
                       SelectionMode="None">
-
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:RepeaStorageFileGroup">
                         <Grid>
@@ -115,6 +117,7 @@
                             </Grid.RowDefinitions>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="大小（字节）" />
+                                
                                 <TextBlock Text="{x:Bind Key}" />
                             </StackPanel>
 
@@ -136,8 +139,13 @@
                                                     <RowDefinition />
                                                     <RowDefinition />
                                                 </Grid.RowDefinitions>
-                                                <Image MaxHeight="400" MaxWidth="800" HorizontalAlignment="Left" Loaded="Image_Loaded" Grid.Row="0" />
-                                                <TextBlock Text="{x:Bind Path}" Grid.Row="1"
+                                                <Image MaxHeight="400"
+                                                       MaxWidth="800"
+                                                       HorizontalAlignment="Left"
+                                                       Loaded="Image_Loaded"
+                                                       Grid.Row="0" />
+                                                <TextBlock Text="{x:Bind Path}"
+                                                           Grid.Row="1"
                                                            VerticalAlignment="Center"
                                                            TextAlignment="DetectFromContent"
                                                            TextWrapping="Wrap" />
@@ -157,6 +165,7 @@
                             </ListView>
                         </Grid>
                     </DataTemplate>
+
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>

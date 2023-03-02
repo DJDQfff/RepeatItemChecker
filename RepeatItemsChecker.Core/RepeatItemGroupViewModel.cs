@@ -25,6 +25,22 @@ namespace RepeatItemsChecker.Core.ViewModels
         public int Count => RepeatPairs.Count;
 
         /// <summary>
+        /// 获取所有元素项
+        /// </summary>
+        public IEnumerable<TElement> AllElements
+        {
+            get
+            {
+                var list=new List<TElement>();
+                foreach(var  item in RepeatPairs)
+                {
+                    var em=item.Collections.ToArray();
+                    list.AddRange(em);
+                }
+                return list;
+            }
+        }
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="elements">数据源</param>

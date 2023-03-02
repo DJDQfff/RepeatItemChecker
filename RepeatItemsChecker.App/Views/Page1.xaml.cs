@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 
 using FolderGroupDB;
 
+using MyStandard20Library;
+
 using MyUWPLibrary;
 
 using RepeatItemsChecker.App.Models;
-
-using RepeatItemsChecker.Core.Models;
 using RepeatItemsChecker.Core.ViewModels;
 
 using Windows.Storage;
@@ -27,7 +29,7 @@ namespace RepeatItemsChecker.App.Views
     /// </summary>
     public sealed partial class Page1 : Page
     {
-        internal RepeatItemGroupViewModel<ulong , StorageFile,RepeaStorageFileGroup> _viewModel;
+        RepeatItemGroupViewModel<string , StorageFile , RepeaStorageFileGroup> _viewModel;
         /// <summary>
         /// 所有要进行比较的文件
         /// </summary>
@@ -48,22 +50,23 @@ namespace RepeatItemsChecker.App.Views
         private FoldersGroup currentConfiguration;
 
         private Database_1 database;
+
         public Page1 ()
         {
             this.InitializeComponent();
-            database= new Database_1 ();
+            database = new Database_1();
             configurationFileFolder = Windows.Storage.ApplicationData.Current.LocalFolder.CreateFolderAsync("Configuration" , CreationCollisionOption.OpenIfExists).AsTask().Result;
         }
 
-        protected override  void OnNavigatedTo (NavigationEventArgs e)
+        protected override void OnNavigatedTo (NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-                var groups = database.folderGroups.ToArray();
-                foreach (var group in groups)
-                {
-                    Groups.Add(group);
-                }
+            var groups = database.folderGroups.ToArray();
+            foreach (var group in groups)
+            {
+                Groups.Add(group);
+            }
         }
 
         private async void PickFolder (object sender , Windows.UI.Xaml.RoutedEventArgs e)
@@ -76,7 +79,7 @@ namespace RepeatItemsChecker.App.Views
                     var token = FutureAccessList.Add(folder);
                     currentConfiguration.AddToken(token);
 
-                        database.SaveChanges();
+                    database.SaveChanges();
 
                     StorageFolders.Add(folder);
                 }
@@ -99,116 +102,134 @@ namespace RepeatItemsChecker.App.Views
                 }
             }
 
-            _viewModel = new RepeatItemGroupViewModel<ulong,StorageFile,RepeaStorageFileGroup>(StorageFiles , n => n.GetBasicPropertiesAsync().AsTask().Result.Size);
+            Func<StorageFile , string> onlyFileSize = n => n.GetBasicPropertiesAsync().AsTask().Result.Size.ToString();
+            var bool1 = CheckBox_FileSize.IsChecked;
+            var bool2 = CheckBox_Md5.IsChecked;
+
+             _viewModel = new RepeatItemGroupViewModel<string , StorageFile , RepeaStorageFileGroup>(StorageFiles , onlyFileSize);
+
+            if (bool2.Value)
+            {        
+                Func<StorageFile , string> sha256 = (x) =>
+                {
+                    string hash;
+                    using (Stream stream = x.OpenStreamForReadAsync().Result)
+                    {
+                        hash = HashComputer.ComputeHash(stream);
+                    }
+
+                    return hash;
+                };
+
+            _viewModel=  new RepeatItemGroupViewModel<string , StorageFile , RepeaStorageFileGroup>(_viewModel.AllElements , sha256);
+        }
+
             SameItemList.ItemsSource = _viewModel.RepeatPairs;
             ProgressRingUI.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             CountTextBlock.Text = _viewModel.Count.ToString();
         }
 
-        private async void Button_Click_LaunchFile (object sender , Windows.UI.Xaml.RoutedEventArgs e)
+    private async void Button_Click_LaunchFile (object sender , Windows.UI.Xaml.RoutedEventArgs e)
+    {
+        var j = sender as Button;
+        var a = j.DataContext as StorageFile;
+        await Windows.System.Launcher.LaunchFileAsync(a);
+    }
+
+    private async void DeleteFile (object sender , Windows.UI.Xaml.RoutedEventArgs e)
+    {
+        var button = sender as Button;
+        var file = button.DataContext as StorageFile;
+
+        _viewModel .DeleteStorageFileInRootObservable(file);
+
+        await file.DeleteAsync(StorageDeleteOption.Default);
+
+        button.IsEnabled = false;
+    }
+
+    private async void AddConfiguration (object sender , Windows.UI.Xaml.RoutedEventArgs e)
+    {
+        var text = NewConFileNameInput.Text;
+
+        if (string.IsNullOrEmpty(text))
         {
-            var j = sender as Button;
-            var a = j.DataContext as StorageFile;
-            await Windows.System.Launcher.LaunchFileAsync(a);
+            await new ContentDialog()
+            { Content = "不能为空" , CloseButtonText = "OK" }
+            .ShowAsync();
         }
 
-        private async void DeleteFile (object sender , Windows.UI.Xaml.RoutedEventArgs e)
+        FoldersGroup folderConFile = new FoldersGroup(text);
+
+        database.Add(folderConFile);
+        database.SaveChanges();
+
+        Groups.Add(folderConFile);
+
+        var a = Groups.IndexOf(folderConFile);
+
+        ConfigurationComboBox.SelectedIndex = a;
+
+        NewConFileNameInput.Text = String.Empty;
+    }
+
+    private void RemoveConFile (object sender , Windows.UI.Xaml.RoutedEventArgs e)
+    {
+        if (Groups.Count != 0)
         {
-            var button = sender as Button;
-            var file = button.DataContext as StorageFile;
+            var item = ConfigurationComboBox.SelectedItem as FoldersGroup;
 
-           _viewModel.DeleteStorageFileInRootObservable(file);
+            database.Remove(item);
+            database.SaveChanges();
 
-            await file.DeleteAsync(StorageDeleteOption.Default);
-
-            button.IsEnabled = false;
+            Groups.Remove(item);
         }
+    }
 
-        private async void AddConfiguration (object sender , Windows.UI.Xaml.RoutedEventArgs e)
+    private async void ConfigurationComboBox_SelectionChanged (object sender , SelectionChangedEventArgs e)
+    {
+        if (ConfigurationComboBox.SelectedItem != null)
         {
-            var text = NewConFileNameInput.Text;
+            StorageFolders.Clear();
+            StorageFiles.Clear();
 
-            if (string.IsNullOrEmpty(text))
+            currentConfiguration = ConfigurationComboBox.SelectedItem as FoldersGroup;
+
+            foreach (var token in currentConfiguration.Tokens)
             {
-                await new ContentDialog() 
-                { Content = "不能为空",CloseButtonText="OK" }
-                .ShowAsync();
-            }
-
-            FoldersGroup folderConFile = new FoldersGroup(text);
-
-
-                database.Add(folderConFile);
-                database.SaveChanges();
-
-            Groups.Add(folderConFile);
-
-            var a = Groups.IndexOf(folderConFile);
-
-            ConfigurationComboBox.SelectedIndex = a;
-
-            NewConFileNameInput.Text = String.Empty;
-        }
-
-        private void RemoveConFile (object sender , Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            if (Groups.Count != 0)
-            {
-                var item = ConfigurationComboBox.SelectedItem as FoldersGroup;
-
-
-                    database.Remove(item);
-                    database.SaveChanges();
-
-                Groups.Remove(item);
-            }
-        }
-
-        private async void ConfigurationComboBox_SelectionChanged (object sender , SelectionChangedEventArgs e)
-        {
-            if (ConfigurationComboBox.SelectedItem != null)
-            {
-                StorageFolders.Clear();
-                StorageFiles.Clear();
-
-                currentConfiguration = ConfigurationComboBox.SelectedItem as FoldersGroup;
-
-                foreach (var token in currentConfiguration.Tokens)
+                if (!string.IsNullOrEmpty(token))
                 {
-                    if (!string.IsNullOrEmpty(token))
+                    try
                     {
-                        try
-                        {
                         var folder = await FutureAccessList.GetFolderAsync(token);
                         StorageFolders.Add(folder);
-
-                        }
-                        catch { }
                     }
+                    catch { }
                 }
             }
         }
+    }
 
-        private void RemoveFolder (object sender , Windows.UI.Xaml.RoutedEventArgs e)
+    private void RemoveFolder (object sender , Windows.UI.Xaml.RoutedEventArgs e)
+    {
+        var item = ConfigurationComboBox.SelectedItem as FoldersGroup;
+        if (item != null)
         {
-            var item = ConfigurationComboBox.SelectedItem as FoldersGroup;
-            if (item != null)
-            {
-                    item.ClearAllTokens();
-                    database.SaveChanges();
+            item.ClearAllTokens();
+            database.SaveChanges();
 
-                StorageFolders.Clear();
-            }
-        }
-
-        private async void Image_Loaded (object sender , Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            var image = sender as Image;
-            var storagefile = image.DataContext as StorageFile;
-            var thumbnail = await storagefile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.SetSource(thumbnail);
-            image.Source= bitmapImage;
+            StorageFolders.Clear();
         }
     }
+
+    private async void Image_Loaded (object sender , Windows.UI.Xaml.RoutedEventArgs e)
+    {
+        var image = sender as Image;
+        var storagefile = image.DataContext as StorageFile;
+        var thumbnail = await storagefile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+        BitmapImage bitmapImage = new BitmapImage();
+        bitmapImage.SetSource(thumbnail);
+        image.Source = bitmapImage;
+    }
+}
 }
