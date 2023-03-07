@@ -8,6 +8,10 @@
 
 # 更新日志
 
+## 2023.3.7
+
+* RepeatItemsGroupViewModel实现IDispoooable接口
+
 ## 2023.3.2
 
 * 任务完成时发出提示
