@@ -11,13 +11,15 @@ namespace RepeatItemsChecker.Core.Models
     /// </summary>
     /// <typeparam name="TKey">重复分组依据</typeparam>
     /// <typeparam name="TElement">重复项</typeparam>
-    public class RepeatItemGroup<TKey, TElement> : IGrouping<TKey , TElement> ,IDisposable
+    public class RepeatItemGroup<TKey, TElement> : IGrouping<TKey , TElement>, IDisposable
     {
         private IGrouping<TKey , TElement> files;
+
         /// <summary>
         /// 重复项分组依据，
         /// </summary>
         public TKey Key => files.Key;
+
         /// <summary>
         /// 重复项可观察集合
         /// </summary>
@@ -35,6 +37,7 @@ namespace RepeatItemsChecker.Core.Models
                 Collections.Add(file);
             }
         }
+
         /// <summary>
         /// 移除重复项中的某一个
         /// </summary>
@@ -60,6 +63,7 @@ namespace RepeatItemsChecker.Core.Models
         {
             throw new NotImplementedException();
         }
+
         /// <summary>
         /// 清空资源
         /// </summary>

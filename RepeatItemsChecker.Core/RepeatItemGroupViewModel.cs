@@ -19,6 +19,7 @@ namespace RepeatItemsChecker.Core.ViewModels
         /// 重复项组合的集合
         /// </summary>
         public ObservableCollection<TRepeatGroup> RepeatPairs { set; get; } = new ObservableCollection<TRepeatGroup>();
+
         /// <summary>
         /// 组合个数
         /// </summary>
@@ -31,17 +32,18 @@ namespace RepeatItemsChecker.Core.ViewModels
         {
             get
             {
-                var list=new List<TElement>();
-                foreach(var  item in RepeatPairs)
+                var list = new List<TElement>();
+                foreach (var item in RepeatPairs)
                 {
-                    var em=item.Collections.ToArray();
+                    var em = item.Collections.ToArray();
                     list.AddRange(em);
                 }
                 return list;
             }
         }
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="elements">数据源</param>
         /// <param name="func">分类依据</param>
@@ -58,6 +60,7 @@ namespace RepeatItemsChecker.Core.ViewModels
                 }
             }
         }
+
         /// <summary>
         /// 删除一个项，在集合中检测删除
         /// </summary>
