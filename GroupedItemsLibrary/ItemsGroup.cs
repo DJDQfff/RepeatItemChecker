@@ -11,9 +11,9 @@ namespace GroupedItemsLibrary.Models
     /// </summary>
     /// <typeparam name="TKey">重复分组依据</typeparam>
     /// <typeparam name="TElement">重复项</typeparam>
-    public class ItemsGroup<TKey, TElement> : IGrouping<TKey , TElement>, IDisposable
+    public class ItemsGroup<TKey, TElement> : IGrouping<TKey, TElement>, IDisposable
     {
-        private IGrouping<TKey , TElement> files;
+        private IGrouping<TKey, TElement> files;
 
         /// <summary>
         /// 重复项分组依据，
@@ -29,7 +29,7 @@ namespace GroupedItemsLibrary.Models
         /// 初始化数据
         /// </summary>
         /// <param name="_files"></param>
-        public void Initial (IGrouping<TKey , TElement> _files)
+        public void Initial(IGrouping<TKey, TElement> _files)
         {
             files = _files;
             foreach (var file in files)
@@ -43,7 +43,7 @@ namespace GroupedItemsLibrary.Models
         /// </summary>
         /// <param name="element">要移除的重复项</param>
         /// <returns>剩下的项的个数</returns>
-        public int TryRemoveItem (TElement element)
+        public int TryRemoveItem(TElement element)
         {
             if (Collections.Contains(element))
             {
@@ -57,9 +57,9 @@ namespace GroupedItemsLibrary.Models
         /// 迭代器
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<TElement> GetEnumerator () => files.GetEnumerator();
+        public IEnumerator<TElement> GetEnumerator() => files.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator ()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             throw new NotImplementedException();
         }
@@ -67,7 +67,7 @@ namespace GroupedItemsLibrary.Models
         /// <summary>
         /// 清空资源
         /// </summary>
-        public void Dispose ()
+        public void Dispose()
         {
             Collections.Clear();
         }
