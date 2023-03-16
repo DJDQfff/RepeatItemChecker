@@ -6,10 +6,10 @@ using System.Linq;
 
 using Windows.Storage;
 
-using RepeatItemsChecker.Core.Models;
+using GroupedItemsLibrary.Models;
 namespace RepeatItemsChecker.App.Models
 {
-    public class RepeaStorageFileGroup : RepeatItemGroup<string , StorageFile>
+    public class RepeaStorageFileGroup : ItemsGroup<string , StorageFile>
     {
 
     }

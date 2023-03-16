@@ -251,25 +251,25 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\我的API库\MyStandard20Library\MyStandard20Library.csproj">
-      <Project>{bfb4f6d8-b208-4b31-8acb-50e6afcdb0b0}</Project>
-      <Name>MyStandard20Library</Name>
+    <ProjectReference Include="..\..\MyLibrary\MyLibrary.Standard20\MyLibrary.Standard20.csproj">
+      <Project>{5f7c9a17-c0bb-496c-b3c4-0ee673a6316e}</Project>
+      <Name>MyLibrary.Standard20</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\我的API库\MyUWPLibrary\MyUWPLibrary.csproj">
+    <ProjectReference Include="..\..\MyLibrary\MyLibrary.UWP\MyLibrary.UWP.csproj">
       <Project>{0b1515f5-9a8c-404a-bd4a-1f2645e4c67d}</Project>
-      <Name>MyUWPLibrary</Name>
+      <Name>MyLibrary.UWP</Name>
     </ProjectReference>
     <ProjectReference Include="..\FolderGroupDB\FolderGroupDB.csproj">
       <Project>{6c2defae-a17b-46bb-a9be-34d8c90f5465}</Project>
       <Name>FolderGroupDB</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GroupedItemsLibrary\GroupedItemsLibrary.csproj">
+      <Project>{25de46fb-d0b6-4839-ba3c-4ab03d931a50}</Project>
+      <Name>GroupedItemsLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RepeatItemsChecker.BaseViews\RepeatItemsChecker.BaseViews.csproj">
       <Project>{45c2b716-8913-425f-b8a3-49c627fc03e0}</Project>
       <Name>RepeatItemsChecker.BaseViews</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RepeatItemsChecker.Core\RepeatItemsChecker.Core.csproj">
-      <Project>{19bac093-b47e-4dab-b37f-5dae86141e24}</Project>
-      <Name>RepeatItemsChecker.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

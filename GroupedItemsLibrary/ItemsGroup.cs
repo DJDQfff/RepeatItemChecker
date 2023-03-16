@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace RepeatItemsChecker.Core.Models
+namespace GroupedItemsLibrary.Models
 {
     /// <summary>
-    /// 重复项组合，多个重复项放在这个类里面
+    /// 按某条件分好的组
     /// </summary>
     /// <typeparam name="TKey">重复分组依据</typeparam>
     /// <typeparam name="TElement">重复项</typeparam>
-    public class RepeatItemGroup<TKey, TElement> : IGrouping<TKey , TElement>, IDisposable
+    public class ItemsGroup<TKey, TElement> : IGrouping<TKey , TElement>, IDisposable
     {
         private IGrouping<TKey , TElement> files;
 

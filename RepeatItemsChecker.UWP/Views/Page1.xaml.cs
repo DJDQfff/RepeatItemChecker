@@ -8,12 +8,12 @@ using FolderGroupDB;
 
 using Microsoft.Toolkit.Uwp.Notifications;
 
-using MyStandard20Library;
+using MyLibrary.Standard20;
 
-using MyUWPLibrary;
+using MyLibrary.UWP;
 
 using RepeatItemsChecker.App.Models;
-using RepeatItemsChecker.Core.ViewModels;
+using GroupedItemsLibrary.ViewModels;
 
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
@@ -31,7 +31,7 @@ namespace RepeatItemsChecker.App.Views
     /// </summary>
     public sealed partial class Page1 : Page
     {
-        RepeatItemGroupViewModel<string , StorageFile , RepeaStorageFileGroup> _viewModel;
+        ItemsGroupsViewModel<string , StorageFile , RepeaStorageFileGroup> _viewModel;
         /// <summary>
         /// 所有要进行比较的文件
         /// </summary>
@@ -107,7 +107,7 @@ namespace RepeatItemsChecker.App.Views
             var bool1 = CheckBox_FileSize.IsChecked;
             var bool2 = CheckBox_Md5.IsChecked;
 
-             _viewModel = new RepeatItemGroupViewModel<string , StorageFile , RepeaStorageFileGroup>(StorageFiles , onlyFileSize);
+             _viewModel = new ItemsGroupsViewModel<string , StorageFile , RepeaStorageFileGroup>(StorageFiles , onlyFileSize);
 
             if (bool2.Value)
             {        
@@ -122,7 +122,7 @@ namespace RepeatItemsChecker.App.Views
                     return hash;
                 };
 
-            _viewModel=  new RepeatItemGroupViewModel<string , StorageFile , RepeaStorageFileGroup>(_viewModel.AllElements , sha256);
+            _viewModel=  new ItemsGroupsViewModel<string , StorageFile , RepeaStorageFileGroup>(_viewModel.AllElements , sha256);
         }
 
             SameItemList.ItemsSource = _viewModel.RepeatPairs;

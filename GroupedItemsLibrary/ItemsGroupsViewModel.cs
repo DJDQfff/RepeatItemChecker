@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-using RepeatItemsChecker.Core.Models;
+using GroupedItemsLibrary.Models;
 
-namespace RepeatItemsChecker.Core.ViewModels
+namespace GroupedItemsLibrary.ViewModels
 {
     /// <summary>
     /// 重复项组合ViewModel
@@ -13,7 +13,7 @@ namespace RepeatItemsChecker.Core.ViewModels
     /// <typeparam name="TKey">重复项分组依据</typeparam>
     /// <typeparam name="TElement">重复项类型</typeparam>
     /// <typeparam name="TRepeatGroup">重复项组合</typeparam>
-    public class RepeatItemGroupViewModel<TKey, TElement, TRepeatGroup> where TRepeatGroup : RepeatItemGroup<TKey , TElement>, new()
+    public class ItemsGroupsViewModel<TKey, TElement, TRepeatGroup> where TRepeatGroup : ItemsGroup<TKey , TElement>, new()
     {
         /// <summary>
         /// 重复项组合的集合
@@ -47,7 +47,7 @@ namespace RepeatItemsChecker.Core.ViewModels
         /// </summary>
         /// <param name="elements">数据源</param>
         /// <param name="func">分类依据</param>
-        public RepeatItemGroupViewModel (IEnumerable<TElement> elements , Func<TElement , TKey> func)
+        public ItemsGroupsViewModel (IEnumerable<TElement> elements , Func<TElement , TKey> func)
         {
             var a = elements.GroupBy(func);
             foreach (var cc in a)
