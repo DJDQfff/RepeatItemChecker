@@ -45,7 +45,7 @@ namespace GroupedItemsLibrary.Models
         /// <returns>剩下的项的个数</returns>
         public int TryRemoveItem(TElement element)
         {
-            var b = Collections.Remove(element);
+            //var b = Collections.Remove(element);
 
             return Collections.Count;
         }
