@@ -41,9 +41,8 @@ namespace GroupedItemsLibrary.Models
         /// <summary>
         /// 移除重复项中的某一个
         /// </summary>
-        /// <param name="element">要移除的重复项</param>
         /// <returns>剩下的项的个数</returns>
-        public int TryRemoveItem(TElement element)
+        public int TryRemoveItem(TElement _)
         {
             //var b = Collections.Remove(element);
 
