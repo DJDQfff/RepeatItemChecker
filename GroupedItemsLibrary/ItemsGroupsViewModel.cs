@@ -11,7 +11,7 @@ namespace GroupedItemsLibrary.ViewModels
     /// 重复项组合ViewModel
     /// </summary>
     /// <typeparam name="TKey">重复项分组依据</typeparam>
-    /// <typeparam name="TElement">重复项类型</typeparam>
+    /// <typeparam name="TElement">重复项 Model</typeparam>
     /// <typeparam name="TRepeatGroup">重复项组合</typeparam>
     public class ItemsGroupsViewModel<TKey, TElement, TRepeatGroup> where TRepeatGroup : ItemsGroup<TKey, TElement>, new()
     {
@@ -46,7 +46,7 @@ namespace GroupedItemsLibrary.ViewModels
         ///
         /// </summary>
         /// <param name="elements">数据源</param>
-        /// <param name="func">分类依据</param>
+        /// <param name="func">分类方法</param>
         public ItemsGroupsViewModel(IEnumerable<TElement> elements, Func<TElement, TKey> func)
         {
             var a = elements.GroupBy(func);
