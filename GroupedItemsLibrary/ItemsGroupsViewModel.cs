@@ -13,7 +13,7 @@ namespace GroupedItemsLibrary.ViewModels
     /// <typeparam name="TKey">重复项分组依据</typeparam>
     /// <typeparam name="TElement">重复项 Model</typeparam>
     /// <typeparam name="TRepeatGroup">重复项组合</typeparam>
-    public class ItemsGroupsViewModel<TKey, TElement, TRepeatGroup> where TRepeatGroup : ItemsGroup<TKey, TElement>, new()
+    public class ItemsGroupsViewModel<TKey, TElement, TRepeatGroup> where TRepeatGroup : ItemsGroup<TKey , TElement>, new()
     {
         /// <summary>
         /// 重复项组合的集合
@@ -47,7 +47,7 @@ namespace GroupedItemsLibrary.ViewModels
         /// </summary>
         /// <param name="elements">数据源</param>
         /// <param name="func">分类方法</param>
-        public ItemsGroupsViewModel(IEnumerable<TElement> elements, Func<TElement, TKey> func)
+        public ItemsGroupsViewModel (IEnumerable<TElement> elements , Func<TElement , TKey> func)
         {
             var a = elements.GroupBy(func);
             foreach (var cc in a)
@@ -65,9 +65,9 @@ namespace GroupedItemsLibrary.ViewModels
         /// 删除一个项，在集合中检测删除
         /// </summary>
         /// <param name="elment"></param>
-        public void DeleteStorageFileInRootObservable(TElement elment)
+        public void DeleteStorageFileInRootObservable (TElement elment)
         {
-            for (int index = Count - 1; index >= 0; index--)
+            for (int index = Count - 1 ; index >= 0 ; index--)
             {
                 var item = RepeatPairs[index];
 
