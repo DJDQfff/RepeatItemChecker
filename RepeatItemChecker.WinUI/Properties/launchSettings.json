@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "RepeatItemChecker.WinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "RepeatItemChecker.WinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

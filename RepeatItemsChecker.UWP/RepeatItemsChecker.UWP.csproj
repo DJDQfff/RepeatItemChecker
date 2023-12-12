@@ -267,10 +267,6 @@
       <Project>{25de46fb-d0b6-4839-ba3c-4ab03d931a50}</Project>
       <Name>GroupedItemsLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RepeatItemsChecker.BaseViews\RepeatItemsChecker.BaseViews.csproj">
-      <Project>{45c2b716-8913-425f-b8a3-49c627fc03e0}</Project>
-      <Name>RepeatItemsChecker.BaseViews</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
