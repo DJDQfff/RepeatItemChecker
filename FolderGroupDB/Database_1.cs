@@ -6,20 +6,18 @@ namespace FolderGroupDB
     {
         public DbSet<FoldersGroup> folderGroups { get; set; }
 
-        private string connectString = "Data Source=DB_1.db";
-
         public Database_1 ()
         { }
 
         public Database_1 (string connectString)
         {
-            this.connectString = connectString;
+            Configuration.ConnectionString = connectString;
         }
 
         protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlite(connectString);
+            optionsBuilder.UseSqlite(Configuration.ConnectionString);
         }
     }
 }

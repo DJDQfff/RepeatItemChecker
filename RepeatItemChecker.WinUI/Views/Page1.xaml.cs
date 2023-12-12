@@ -1,9 +1,5 @@
 ﻿// https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
-using System.Security.Cryptography;
-
-using RepeatItemChecker.WinUI;
-
 namespace RepeatItemsChecker.WinUI.Views
 {
     /// <summary>
@@ -119,16 +115,22 @@ namespace RepeatItemsChecker.WinUI.Views
             CountTextBlock.Text = _viewModel.Count.ToString();
 
             LoadingControl.IsLoading = false;
-            new ToastContentBuilder()
-                .AddText("完成")
-                .Show();
+            new ToastContentBuilder().AddText("完成").Show();
         }
 
         private async void Button_Click_LaunchFile (object sender , RoutedEventArgs e)
         {
             var j = sender as Button;
-            var a = j.DataContext as StorageFile;
-            await Windows.System.Launcher.LaunchFileAsync(a);
+            switch (j.DataContext)
+            {
+                case string str:
+                    System.Diagnostics.Process.Start("explorer" , str);
+                    break;
+
+                case StorageFile a:
+                    await Windows.System.Launcher.LaunchFileAsync(a);
+                    break;
+            }
         }
 
         private async void DeleteFile (object sender , RoutedEventArgs e)
@@ -220,15 +222,19 @@ namespace RepeatItemsChecker.WinUI.Views
         private async void Image_Loaded (object sender , RoutedEventArgs e)
         {
             var image = sender as Image;
-            var storagefile = image.DataContext as StorageFile;
-            if (storagefile is null)
+
+            switch (image.DataContext)
             {
-                return;
+                case string str:
+                    break;
+
+                case StorageFile storageFile:
+                    var thumbnail = await storageFile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+                    BitmapImage bitmapImage = new BitmapImage();
+                    bitmapImage.SetSource(thumbnail);
+                    image.Source = bitmapImage;
+                    break;
             }
-            var thumbnail = await storagefile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.SetSource(thumbnail);
-            image.Source = bitmapImage;
         }
     }
 }

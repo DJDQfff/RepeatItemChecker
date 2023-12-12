@@ -2,6 +2,7 @@
 global using System.Collections.ObjectModel;
 global using System.IO;
 global using System.Linq;
+global using System.Security.Cryptography;
 
 global using CommunityToolkit.WinUI.Notifications;
 
@@ -16,7 +17,7 @@ global using Microsoft.UI.Xaml.Controls;
 global using Microsoft.UI.Xaml.Media.Imaging;
 global using Microsoft.UI.Xaml.Navigation;
 
-global using MyLibrary.Standard20;
+global using RepeatItemChecker.WinUI;
 
 global using RepeatItemsChecker.WinUI.Models;
 

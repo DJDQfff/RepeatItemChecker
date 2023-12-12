@@ -10,13 +10,12 @@ namespace RepeatItemsChecker.WinUI
         public MainPage ()
         {
             this.InitializeComponent();
-        }
-
-        protected override void OnNavigatedTo (NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            using (Database_1 database = new Database_1())
+            var localfolder = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
+            var databasefile = "db_1.db";
+            var filepath = Path.Combine(localfolder , databasefile);
+            var connectionstring = $"Data Source={filepath}";
+            FolderGroupDB.Configuration.ConnectionString = connectionstring;
+            using (var database = new Database_1())
             {
                 database.Database.Migrate();
                 database.SaveChanges();
