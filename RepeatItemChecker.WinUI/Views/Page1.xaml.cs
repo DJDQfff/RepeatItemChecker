@@ -153,7 +153,7 @@ namespace RepeatItemsChecker.WinUI.Views
             button.IsEnabled = false;
         }
 
-        private async void AddConfiguration (object sender , RoutedEventArgs e)
+        private void AddConfiguration (object sender , RoutedEventArgs e)
         {
             var text = NewConFileNameInput.Text;
 
