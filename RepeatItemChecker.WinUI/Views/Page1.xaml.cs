@@ -136,11 +136,19 @@ namespace RepeatItemsChecker.WinUI.Views
         private async void DeleteFile (object sender , RoutedEventArgs e)
         {
             var button = sender as Button;
-            var file = button.DataContext as StorageFile;
+            switch (button.DataContext)
+            {
+                case StorageFile fil:
+                    await fil.DeleteAsync(StorageDeleteOption.Default);
+                    _viewModel.DeleteStorageFileInRootObservable(fil.Path);
 
-            _viewModel.DeleteStorageFileInRootObservable(file.Path);
+                    break;
 
-            await file.DeleteAsync(StorageDeleteOption.Default);
+                case string path:
+                    File.Delete(path);
+                    _viewModel.DeleteStorageFileInRootObservable(path);
+                    break;
+            }
 
             button.IsEnabled = false;
         }
@@ -151,9 +159,7 @@ namespace RepeatItemsChecker.WinUI.Views
 
             if (string.IsNullOrEmpty(text))
             {
-                await new ContentDialog()
-                { Content = "不能为空" , CloseButtonText = "OK" }
-                .ShowAsync();
+                return;
             }
 
             FoldersGroup folderConFile = new FoldersGroup(text);
