@@ -7,7 +7,6 @@
     xmlns:models="using:RepeatItemsChecker.WinUI.Models"
     xmlns:storage="using:Windows.Storage"
     xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
-    Background="#FFAEDEFC"
     mc:Ignorable="d">
     <Page.Resources />
     <Grid>
