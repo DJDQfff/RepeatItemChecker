@@ -42,9 +42,9 @@ namespace GroupedItemsLibrary.Models
         /// 移除重复项中的某一个
         /// </summary>
         /// <returns>剩下的项的个数</returns>
-        public int TryRemoveItem (TElement _)
+        public int TryRemoveItem (TElement element)
         {
-            //var b = Collections.Remove(element);
+            _ = Collections.Remove(element);
 
             return Collections.Count;
         }
