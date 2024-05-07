@@ -46,8 +46,10 @@ namespace GroupedItemsLibrary.ViewModels
         ///
         /// </summary>
         /// <param name="elements">数据源</param>
-        /// <param name="func">分类方法</param>
-        public ItemsGroupsViewModel (IEnumerable<TElement> elements , Func<TElement , TKey> func)
+        /// <param name="func">分类条件</param>
+        /// <param name="filt">忽略条件</param>
+        /// 
+        public ItemsGroupsViewModel (IEnumerable<TElement> elements , Func<TElement , TKey> func , Func<TRepeatGroup , bool> filt)
         {
             var a = elements.GroupBy(func);
             foreach (var cc in a)
@@ -56,9 +58,14 @@ namespace GroupedItemsLibrary.ViewModels
                 {
                     var item = new TRepeatGroup();
                     item.Initial(cc);
-                    RepeatPairs.Add(item);
+                    var can = filt.Invoke(item);
+                    if (can)
+                    {
+                        RepeatPairs.Add(item);
+                    }
                 }
             }
+
         }
 
         /// <summary>
@@ -69,13 +76,13 @@ namespace GroupedItemsLibrary.ViewModels
         {
             for (int index = Count - 1 ; index >= 0 ; index--)
             {
-                var item = RepeatPairs[index];
+                var group = RepeatPairs[index];
 
-                var count = item.TryRemoveItem(elment);
+                var count = group.TryRemoveItem(elment);
 
                 if (count == 1)
                 {
-                    RepeatPairs.Remove(item);
+                    RepeatPairs.RemoveAt(index);
                 }
             }
         }
